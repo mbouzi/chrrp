@@ -1,28 +1,24 @@
-const { GraphQLServer } = require('graphql-yoga')
-const { prisma } = require('./generated/prisma-client')
+import React from 'react';
+import ReactDOM from 'react-dom';
+import './styles/index.css'
+import App from './components/App'
+import * as serviceWorker from './serviceWorker';
 
-const Query = require('./resolvers/Query')
-const Mutation = require('./resolvers/Mutation')
-const User = require('./resolvers/User')
-const Post = require('./resolvers/Post')
+import { ApolloProvider } from 'react-apollo'
+import { ApolloClient } from 'apollo-client'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
 
-const resolvers = {
-  Query,
-  Mutation,
-  User,
-  Post
-}
-
-const server = new GraphQLServer({
-  typeDefs: './src/schema.graphql',
-  resolvers,
-  context: request => {
-    return {
-      ...request,
-      prisma,
-    }
-  },
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000'
 })
 
-server.start(() => console.log('Server is running on http://localhost:4000'))
+
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+)
+serviceWorker.unregister();
