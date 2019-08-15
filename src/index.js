@@ -1,31 +1,37 @@
 const { GraphQLServer } = require('graphql-yoga')
 
-let post = [{
+let posts = [{
   id: 'post-0',
   content: 'dummy post'
 }]
 
-const typeDefs = `
-type Query {
-  info: String!
-  feed: [Post!]!
-}
-
-type Post {
-  id: ID!
-  content: String!
-  deleted: Boolean!
-}
-`
+let idCount = posts.length
 
 const resolvers = {
   Query: {
-    info: () => 'This is the API'
+    info: () => 'This is the API',
+    feed: () => posts
+  },
+  Mutation: {
+    post: (parent, args) => {
+      const post = {
+        id: `post-${idCount++}`,
+        content: args.content,
+        deleted: args.deleted
+      }
+      posts.push(post)
+      return post
+    }
+  },
+  Post: {
+    id: (parent) => parent.id,
+    content: (parent) => parent.content,
+    deleted: (parent) => parent.deleted
   }
 }
 
 const server = new GraphQLServer({
-  typeDefs,
+  typeDefs: './src/schema.graphql',
   resolvers
 })
 

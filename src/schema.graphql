@@ -1,0 +1,14 @@
+type Query {
+  info: String!
+  feed: [Post!]!
+}
+
+type Mutation {
+  post(content: String!, deleted: Boolean!): Post!
+}
+
+type Post {
+  id: ID!
+  content: String!
+  deleted: Boolean!
+}
