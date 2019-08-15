@@ -12,4 +12,5 @@ type User {
   name: String! @unique
   password: String!
   posts: [Post!]!
+  image: String
 }

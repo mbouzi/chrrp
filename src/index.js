@@ -14,6 +14,10 @@ const httpLink = createHttpLink({
   uri: 'http://localhost:4000'
 })
 
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
 
 ReactDOM.render(
   <ApolloProvider client={client}>

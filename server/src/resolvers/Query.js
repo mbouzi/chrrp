@@ -1,11 +1,11 @@
 async function feed(parent, args, context, info) {
   const where = args.filter ? {
    OR: [
-     { content_contains: args.filter }
+     { content_contains: args.filter },
      { deleted: false },
    ],
- } :  
-  OR: [
+ } :
+ {OR: [
     { deleted: false },
   ],
 }
