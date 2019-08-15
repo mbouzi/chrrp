@@ -1,0 +1,10 @@
+{
+  "name": "chrrp",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/mbouzi/chrrp.git",
+  "license": "MIT",
+  "dependencies": {
+    "graphql-yoga": "^1.18.1"
+  }
+}
