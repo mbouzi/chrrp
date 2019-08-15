@@ -15,7 +15,7 @@ async function signup(parent, args, context, info) {
 }
 
 async function login(parent, args, context, info) {
-  const user = await context.prisma.user({ email: args.email })
+  const user = await context.prisma.user({ name: args.name })
   if (!user) {
     throw new Error('No such user found')
   }
@@ -35,7 +35,7 @@ async function login(parent, args, context, info) {
 
 function post(parent, args, context, info) {
   const userId = getUserId(context)
-  return context.prisma.createLink({
+  return context.prisma.createPost({
     content: args.content,
     deleted: args.deleted,
     postedBy: { connect: { id: userId } },
