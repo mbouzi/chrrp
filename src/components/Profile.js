@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import Feed from './Feed'
-
+import '../styles/profile.css'
 
 class Profile extends Component {
   state = {
@@ -11,7 +11,7 @@ class Profile extends Component {
   render() {
     const { content } = this.state
     return (
-      <div>
+      <div className="profile">
         <div className="account-info">
 
         </div>

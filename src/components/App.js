@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
-import Feed from './Feed'
+import Profile from './Profile'
 
 class App extends Component {
   render() {
-    return <Feed />
+    return <Profile />
   }
 }
 

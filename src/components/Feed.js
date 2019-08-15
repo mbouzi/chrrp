@@ -10,6 +10,9 @@ const FEED_QUERY = gql`
       id
       content
       deleted
+      postedBy {
+        name
+      }
     }
   }
 `

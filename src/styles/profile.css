@@ -1,11 +1,62 @@
-.account-info {
+.profile {
+  width: 800px;
+  margin: 0 auto;
+}
 
+.account-info {
+  width: 227px;
+  float: left;
 }
 
 .post-actions {
-
+  width: 392px;
+  float: right;
 }
 
 .new-post {
 
+}
+
+.feed {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
+  border-radius: 10px;
+  margin-top: 20px;
+}
+
+.post {
+  height: 93px;
+  border-bottom: 1px solid rgba(126, 139, 156, 0.24);
+}
+
+.user-post-info {
+  margin: 26px;
+  height: 32px;
+}
+
+.user-post-image {
+  width: 32px;
+  height: 32px;
+  background: grey;
+  border-radius: 50px;
+}
+
+.user-post-details {
+  position: relative;
+  left: 50px;
+  bottom: 50px;
+}
+
+.user-post-username {
+  font-weight: bold;
+}
+.user-post-date {
+  position: relative;
+  bottom: 15px;
+}
+
+.post-content {
+  position: relative;
+  left: 26px;
+  bottom: 8px;
 }
