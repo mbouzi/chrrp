@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import Feed from './Feed'
+import CreatePost from './CreatePost'
+
 import '../styles/profile.css'
 
 class Profile extends Component {
@@ -16,7 +18,7 @@ class Profile extends Component {
 
         </div>
         <div className="post-actions">
-          <div className="new-post"></div>
+          <CreatePost />
           <Feed />
         </div>
       </div>
