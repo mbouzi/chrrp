@@ -5,10 +5,24 @@ type Query {
 
 type Mutation {
   post(content: String!, deleted: Boolean!): Post!
+  signup(name: String!, password: String!): AuthPayload
+  login(name: String!, password: String!): AuthPayload
 }
 
 type Post {
   id: ID!
   content: String!
   deleted: Boolean!
+  postedBy: User
+}
+
+type AuthPayload {
+  token: String
+  user: User
+}
+
+type User {
+  id: ID!
+  name: String!
+  posts: [Post!]!
 }

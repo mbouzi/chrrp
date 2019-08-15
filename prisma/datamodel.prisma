@@ -4,4 +4,12 @@ type Post {
   createdAt: DateTime! @createdAt
   content: String!
   deleted: Boolean!
+  postedBy: User
+}
+
+type User {
+  id: ID! @id
+  name: String! @unique
+  password: String!
+  posts: [Post!]!
 }
