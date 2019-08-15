@@ -6,7 +6,6 @@ const POST_MUTATION = gql`
   mutation PostMutation($content: String!, $deleted: Boolean!) {
     post(content: $content, deleted: $deleted) {
       id
-      createdAt
       content
       deleted
     }
@@ -30,7 +29,11 @@ class CreatePost extends Component {
           type="text"
           placeholder="What's happening?"
         />
-        <Mutation mutation={POST_MUTATION} variables={{ content, deleted }}>
+        <Mutation
+          mutation={POST_MUTATION} 
+          variables={{ content, deleted }}
+          // onCompleted={}
+        >
          {postMutation => <button onClick={postMutation}>Post</button>}
         </Mutation>
       </div>

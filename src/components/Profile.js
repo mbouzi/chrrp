@@ -5,13 +5,13 @@ import CreatePost from './CreatePost'
 import '../styles/profile.css'
 
 class Profile extends Component {
-  state = {
-    description: '',
-    url: '',
-  }
+  // state = {
+  //   description: '',
+  //   url: '',
+  // }
 
   render() {
-    const { content } = this.state
+    // const { content } = this.state
     return (
       <div className="profile">
         <div className="account-info">
