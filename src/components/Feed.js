@@ -14,7 +14,7 @@ const FEED_QUERY = gql`
   }
 `
 
-const Feed = ({}) => {
+const Feed = () => {
   return (
     <Query query={FEED_QUERY}>
       {({ loading, error, data }) => {
@@ -26,7 +26,7 @@ const Feed = ({}) => {
         const posts = data.feed
 
         return (
-          <div>
+          <div className="feed">
             {posts.map(post => <Post key={post.id} post={post} />)}
           </div>
         )
