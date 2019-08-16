@@ -1,4 +1,6 @@
 import React from 'react'
+import { timeDifferenceForDate } from '../utils'
+
 
 const Post = ({post}) => {
   console.log("POST:", post)
@@ -8,7 +10,7 @@ const Post = ({post}) => {
         <div className="user-post-image"></div>
         <div className="user-post-details">
           <p className="user-post-username">{post.postedBy.name}</p>
-          <p className="user-post-date">12m</p>
+          <p className="user-post-date"> {timeDifferenceForDate(post.createdAt)}</p>
         </div>
       </div>
       <p className="post-content">{post.content}</p>

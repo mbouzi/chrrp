@@ -39,13 +39,15 @@
 }
 
 .post {
-  height: 93px;
+  min-height: 93px;
   border-bottom: 1px solid rgba(126, 139, 156, 0.24);
 }
 
 .user-post-info {
-  margin: 26px;
   height: 32px;
+  left: 25px;
+  top: 25px;
+  position: relative;
 }
 
 .user-post-image {
@@ -57,20 +59,25 @@
 
 .user-post-details {
   position: relative;
-  left: 50px;
+  left: 45px;
   bottom: 50px;
 }
 
 .user-post-username {
   font-weight: bold;
+  font-size: 14px;
+  line-height: 17px;
 }
 .user-post-date {
   position: relative;
-  bottom: 15px;
+  bottom: 12px;
+  font-size: 12px;
+  line-height: 14px;
+  color:  #7E8B9C;
 }
 
 .post-content {
-  position: relative;
-  left: 26px;
-  bottom: 8px;
+  margin: 40px 0px 30px 26px;
+  font-size: 16px;
+  line-height: 19px;
 }

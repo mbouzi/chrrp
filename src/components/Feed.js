@@ -10,6 +10,7 @@ const FEED_QUERY = gql`
       id
       content
       deleted
+      createdAt
       postedBy {
         name
       }
