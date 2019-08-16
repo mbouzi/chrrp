@@ -3,6 +3,9 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { AUTH_TOKEN } from '../constants'
 
+import '../styles/login.css'
+
+
 const SIGNUP_MUTATION = gql`
   mutation SignupMutation($password: String!, $name: String!) {
     signup(password: $password, name: $name) {
@@ -29,7 +32,7 @@ class Login extends Component {
   render() {
     const { login, password, name } = this.state
     return (
-      <div>
+      <div className="login">
         <h4 >{login ? 'Login' : 'Sign Up'}</h4>
         <div >
           <input
@@ -52,9 +55,9 @@ class Login extends Component {
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
-              <div onClick={mutation}>
+              <button onClick={mutation}>
                 {login ? 'login' : 'create account'}
-              </div>
+              </button>
             )}
           </Mutation>
           <div
