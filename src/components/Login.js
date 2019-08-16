@@ -27,19 +27,17 @@ class Login extends Component {
   }
 
   render() {
-    const { login, email, password, name } = this.state
+    const { login, password, name } = this.state
     return (
       <div>
-        <h4 className="mv3">{login ? 'Login' : 'Sign Up'}</h4>
-        <div className="flex flex-column">
-          {!login && (
-            <input
-              value={name}
-              onChange={e => this.setState({ name: e.target.value })}
-              type="text"
-              placeholder="Your name"
-            />
-          )}
+        <h4 >{login ? 'Login' : 'Sign Up'}</h4>
+        <div >
+          <input
+            value={name}
+            onChange={e => this.setState({ name: e.target.value })}
+            type="text"
+            placeholder="Your name"
+          />
           <input
             value={password}
             onChange={e => this.setState({ password: e.target.value })}
@@ -47,20 +45,19 @@ class Login extends Component {
             placeholder="Choose a safe password"
           />
         </div>
-        <div className="flex mt3">
+        <div >
           <Mutation
             mutation={login ? LOGIN_MUTATION : SIGNUP_MUTATION}
-            variables={{ email, password, name }}
+            variables={{ password, name }}
             onCompleted={data => this._confirm(data)}
           >
             {mutation => (
-              <div className="pointer mr2 button" onClick={mutation}>
+              <div onClick={mutation}>
                 {login ? 'login' : 'create account'}
               </div>
             )}
           </Mutation>
           <div
-            className="pointer button"
             onClick={() => this.setState({ login: !login })}
           >
             {login

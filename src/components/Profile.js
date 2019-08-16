@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import Feed from './Feed'
 import CreatePost from './CreatePost'
+import AccountInfo from './AccountInfo'
 
 import '../styles/profile.css'
 
@@ -14,9 +15,7 @@ class Profile extends Component {
     // const { content } = this.state
     return (
       <div className="profile">
-        <div className="account-info">
-
-        </div>
+        <AccountInfo />
         <div className="post-actions">
           <CreatePost />
           <Feed />

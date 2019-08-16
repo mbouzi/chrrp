@@ -27,4 +27,8 @@ type User {
   name: String!
   posts: [Post!]!
   image: String
+  bio: String
+  location: String
+  website: String
+  startDate: String
 }

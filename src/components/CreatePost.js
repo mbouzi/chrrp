@@ -23,6 +23,7 @@ class CreatePost extends Component {
     const { content, deleted } = this.state
     return (
       <div className="create-post">
+        <div className="create-post-image"> </div>
         <input
           value={content}
           onChange={e => this.setState({ content: e.target.value })}
@@ -30,7 +31,7 @@ class CreatePost extends Component {
           placeholder="What's happening?"
         />
         <Mutation
-          mutation={POST_MUTATION} 
+          mutation={POST_MUTATION}
           variables={{ content, deleted }}
           // onCompleted={}
         >
