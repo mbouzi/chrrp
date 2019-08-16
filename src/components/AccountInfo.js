@@ -1,5 +1,9 @@
 import React from 'react'
 import { timeDifferenceForDate } from '../utils'
+import location from "../styles/assets/location.svg"
+import link from "../styles/assets/link.svg"
+import date from "../styles/assets/date.svg"
+
 
 
 const AccountInfo = ({user}) => {
@@ -11,9 +15,9 @@ const AccountInfo = ({user}) => {
         <p className="account-info-bio">Musical anarchist/the originator</p>
       </div>
       <ul className="account-info-sub">
-        <li>Some Place Higher</li>
-        <li>kidcudi.com</li>
-        <li>July 2019</li>
+        <li><span><img src={location} /></span>Some Place Higher</li>
+        <li><span><img src={link} /></span>kidcudi.com</li>
+        <li><span><img src={date} /></span>July 2019</li>
       </ul>
     </div>
   )

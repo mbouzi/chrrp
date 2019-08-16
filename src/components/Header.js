@@ -1,14 +1,15 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import { withRouter } from 'react-router'
+import logo from '../styles/assets/logo.svg'
 
 class Header extends Component {
   render() {
     return (
-      <div>
+      <div className="header">
         <div >
         <Link to="/create" >
-          chrrp
+          <img src={logo} />
         </Link>
         </div>
       </div>

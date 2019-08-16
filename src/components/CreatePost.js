@@ -8,6 +8,10 @@ const POST_MUTATION = gql`
       id
       content
       deleted
+      createdAt
+      postedBy {
+        name
+      }
     }
   }
 `
@@ -33,7 +37,9 @@ class CreatePost extends Component {
         <Mutation
           mutation={POST_MUTATION}
           variables={{ content, deleted }}
-          // onCompleted={}
+          update={(store, { data: { post } }) =>
+            this.props.updateStoreAfterPost(store, post)
+          }
         >
          {postMutation => <button onClick={postMutation}>Post</button>}
         </Mutation>

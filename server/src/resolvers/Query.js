@@ -10,7 +10,14 @@ async function feed(parent, args, context, info) {
   ],
 }
 
- const posts = await context.prisma.posts({where})
+
+let orderBy = "createdAt_DESC"
+
+if(args.orderBy && args.orderBy === "oldest") {
+  orderBy = "createdAt_ASC"
+}
+
+ const posts = await context.prisma.posts({orderBy: orderBy, where})
 
  return posts
 }
