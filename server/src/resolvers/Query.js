@@ -15,6 +15,11 @@ async function feed(parent, args, context, info) {
  return posts
 }
 
+function currentUser(parent, args, context, info) {
+    const userId = getUserId(context)
+    return context.prisma.user({id: userId})
+}
+
 module.exports = {
   feed,
 }

@@ -61,6 +61,7 @@
   background: grey;
   display: inline-block;
   border-radius: 50px;
+  vertical-align: middle;
 }
 
 .create-post button {

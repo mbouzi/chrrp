@@ -3,6 +3,8 @@ body {
   font-family: "SF Pro Display";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background: #F4F6F9;
+  backdrop-filter: blur(4px);
 }
 
 code {

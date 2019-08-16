@@ -7,14 +7,9 @@ class Header extends Component {
     return (
       <div>
         <div >
-          <div >chrrp</div>
-          <Link to="/">
-            new
-          </Link>
-          <div >|</div>
-          <Link to="/create" >
-            submit
-          </Link>
+        <Link to="/create" >
+          chrrp
+        </Link>
         </div>
       </div>
     )
