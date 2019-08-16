@@ -64,6 +64,29 @@
   vertical-align: middle;
 }
 
+.create-post input {
+  margin: 0px 24px;
+  width: 180px;
+  height: 28px;
+  border: none;
+  font-size: 16px;
+  line-height: 19px;
+  outline: none;
+}
+
+.create-post ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #7E8B9C;
+  opacity: 1; /* Firefox */
+}
+
+.create-post :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #7E8B9C;
+}
+
+.create-post ::-ms-input-placeholder { /* Microsoft Edge */
+  color: #7E8B9C;
+}
+
 .create-post button {
   width: 69.75px;
   height: 30px;
@@ -72,6 +95,7 @@
   color: #FFF;
   font-weight: bold;
   cursor: pointer;
+  border: none;
 }
 
 .feed {
@@ -85,6 +109,38 @@
   min-height: 93px;
   border-bottom: 1px solid rgba(126, 139, 156, 0.24);
 }
+
+.edit-dropdown {
+  float: right;
+  position: relative;
+  right: 29px;
+  bottom: 6px;
+  cursor: pointer;
+
+}
+
+.edit-dropdown:hover .dropdown {
+  display: block;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+}
+
+.dropdown p {
+  background: #FFFFFF;
+  border: 1px solid rgba(126, 139, 156, 0.6);
+  box-sizing: border-box;
+  box-shadow: 0px 2px 11px rgba(126, 139, 156, 0.3);
+  padding: 11px;
+  color: rgba(126, 139, 156, 0.6);
+}
+
+.dropdown img {
+  fill: black;
+}
+
 
 .user-post-info {
   height: 32px;
