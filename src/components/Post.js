@@ -24,14 +24,43 @@ const editPost = (setEditPost, content, deleted) => {
 const renderEditModal = (editInput, setEditInput) => {
   if(editInput) {
     return (
-      <div>
-        <input
-          placeholder="edit input"
-        />
-        <button
-          text="Post"
-        />
-        <p onClick={() => setEditInput(false)}>Cancel</p>
+      <div className="update-modal">
+        <div>
+          <input
+            placeholder="edit input"
+          />
+          <button
+            text="Post"
+          />
+          <p onClick={() => setEditInput(false)}>Cancel</p>
+        </div>
+      </div>
+    )
+  }
+}
+
+const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
+  if(openDropdown) {
+    return (
+      <div className="dropdown">
+        <div
+          onClick={
+            () => setEditPost({variables: {postId: post.id, deleted: true}})
+            .then(result => window.location.reload())
+            .catch(error => console.log("Error when updating post:", error))
+          }
+          className="delete"
+        >
+          <img src={cancel} />
+          <p>Delete</p>
+        </div>
+        <div
+          onClick={() => setEditInput(true)}
+          className="delete"
+        >
+          <img src={cancel} />
+          <p>Edit</p>
+        </div>
       </div>
     )
   }
@@ -44,6 +73,7 @@ const Post = ({post, deletePost}) => {
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);
   const [editInput, setEditInput] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState(false);
 
 
   return (
@@ -56,29 +86,11 @@ const Post = ({post, deletePost}) => {
           <p className="user-post-date"> {timeDifferenceForDate(post.createdAt)}</p>
         </div>
       </div>
-      <div className="edit-dropdown">
+      <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
         <img src={edit} />
-        <div className="dropdown">
-            <div
-              onClick={
-                () => setEditPost({variables: {postId: post.id, deleted: true}})
-                .then(result => window.location.reload())
-                .catch(error => console.log("Error when updating post:", error))
-              }
-              className="delete"
-            >
-              <img src={cancel} />
-              <p>Delete</p>
-            </div>
-            <div
-              onClick={() => setEditInput(true)}
-              className="delete"
-            >
-              <img src={cancel} />
-              <p>Edit</p>
-            </div>
-        </div>
+        {renderDropdown(openDropdown, setEditPost, setEditInput, post)}
       </div>
+      <p className="post-content">{post.content}</p>
     </div>
   )
 }

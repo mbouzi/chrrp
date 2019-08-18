@@ -119,28 +119,36 @@
 
 }
 
-.edit-dropdown:hover .dropdown {
-  display: block;
-}
 
 .dropdown {
-  /* display: none; */
   position: absolute;
-
+  border: 1px solid rgba(126, 139, 156, 0.6);
+  border-bottom: none;
+  border-radius: 3px;
+  right: -40px;
+  z-index: 1;
 }
 
 .dropdown .delete {
   background: #FFFFFF;
-  border: 1px solid rgba(126, 139, 156, 0.6);
+  border-bottom: 1px solid rgba(126, 139, 156, 0.6);
+  border-top: none;
   box-sizing: border-box;
   box-shadow: 0px 2px 11px rgba(126, 139, 156, 0.3);
   padding: 11px;
   color: rgba(126, 139, 156, 0.6);
   display: flex;
+  border-radius: 3px;
 }
 
-.dropdown img {
-  fill: black;
+.dropdown p {
+  margin: 0;
+  margin-left: 5px;
+}
+
+.dropdown .delete:hover {
+  background: #2582FF;
+  color: #fff;
 }
 
 
@@ -181,4 +189,21 @@
   margin: 40px 0px 30px 26px;
   font-size: 16px;
   line-height: 19px;
+}
+
+.update-modal {
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  background-color: rgba(0,0,0, 0.8705882352941177);
+  overflow-x: hidden;
+  transition: 0.5s;
+  text-align: center;
+}
+
+.update-modal div {
+  margin-top: 10%;
 }
