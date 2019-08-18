@@ -5,7 +5,9 @@ import gql from 'graphql-tag'
 import Feed from './Feed'
 import CreatePost from './CreatePost'
 import AccountInfo from './AccountInfo'
+import ClipLoader from 'react-spinners/ClipLoader';
 
+import { css } from '@emotion/core';
 import '../styles/profile.css'
 
 const FEED_QUERY = gql`
@@ -21,6 +23,13 @@ const FEED_QUERY = gql`
     }
   }
 `
+
+const LoadingStyle = css`
+    margin: 0 auto;
+    position: relative;
+    left: 40%;
+    top: 100px;
+`;
 
 
 class Profile extends Component {
@@ -47,7 +56,17 @@ class Profile extends Component {
           <CreatePost updateStoreAfterPost={this._updateCacheAfterPost}  />
           <Query query={FEED_QUERY}>
             {({ loading, error, data }) => {
-              if (loading) return <div>Fetching</div>
+              if (loading) {
+                return (
+                  <ClipLoader
+                    css={LoadingStyle}
+                    sizeUnit={"px"}
+                    size={50}
+                    color="#2582FF"
+                    loading={loading}
+                  />
+                )
+              }
               if (error) {
                 console.log("ERROR:", error)
                 return <div>Error</div>

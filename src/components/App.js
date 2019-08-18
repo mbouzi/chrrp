@@ -8,6 +8,9 @@ import Profile from './Profile'
 import Header from './Header'
 import Login from './Login'
 
+import ClipLoader from 'react-spinners/ClipLoader';
+import { css } from '@emotion/core';
+
 import { AUTH_TOKEN } from '../constants'
 
 const CURRENT_USER_QUERY = gql`
@@ -17,6 +20,14 @@ const CURRENT_USER_QUERY = gql`
     }
   }
 `
+
+const LoadingStyle = css`
+    margin: 0 auto;
+    position: relative;
+    left: 50%;
+    top: 200px;
+`;
+
 
 const authToken = localStorage.getItem(AUTH_TOKEN);
 const pathName = window.location.pathname;
@@ -37,7 +48,17 @@ const renderApp = (data, loading, error) => {
   if (pathName === "/login" || pathName === "/signup"){
     return
   } else {
-    if (loading) return <div>Fetching</div>;
+    if (loading) {
+      return (
+        <ClipLoader
+          css={LoadingStyle}
+          sizeUnit={"px"}
+          size={50}
+          color="#2582FF"
+          loading={loading}
+        />
+      )
+    }
     if (error) {
       console.log("ERROR:", error)
        return <div>Error</div>
