@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
 
-import Feed from './Feed'
 import CreatePost from './CreatePost'
 import AccountInfo from './AccountInfo'
+import Post from './Post'
 import ClipLoader from 'react-spinners/ClipLoader';
 
 import { css } from '@emotion/core';
@@ -74,7 +74,9 @@ class Profile extends Component {
               const posts = data.feed
 
               return (
-                <Feed posts={posts}  />
+                <div className="feed">
+                  {posts.map(post => <Post key={post.id} updateStoreAfterPost={this._updateCacheAfterPost} post={post} />)}
+                </div>
               )
             }}
           </Query>

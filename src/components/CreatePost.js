@@ -25,20 +25,26 @@ class CreatePost extends Component {
 
   render() {
     const { content, deleted } = this.state
+
+    const editMutation = this.props.editMutation
+
     return (
       <div className="create-post">
         <div className="create-post-image"> </div>
         <input
-          value={content}
+          value={this.props.editContent & !content ? this.props.editContent : content}
           onChange={e => this.setState({ content: e.target.value })}
           type="text"
           placeholder="What's happening?"
         />
         <Mutation
-          mutation={POST_MUTATION}
-          variables={{ content, deleted }}
-          update={(store, { data: { post } }) =>
-            this.props.updateStoreAfterPost(store, post)
+          mutation={editMutation ? editMutation : POST_MUTATION}
+          variables={ this.props.postId ? { id: this.props.postId, content, deleted, postId: this.props.postId } : { content, deleted } }
+          update={(store, { data: { post } }) => {
+              if(post) {
+                this.props.updateStoreAfterPost(store, post)
+              }
+            }
           }
         >
          {postMutation => <button onClick={postMutation}>Post</button>}

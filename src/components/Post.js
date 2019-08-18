@@ -5,10 +5,12 @@ import cancel from "../styles/assets/cancel.svg"
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
 
+import CreatePost from './CreatePost'
 
 const EDIT_POST = gql`
   mutation updatePost($postId: ID!, $content: String, $deleted: Boolean){
     updatePost(postId: $postId, content: $content, deleted: $deleted) {
+      id
       content
       deleted
     }
@@ -21,20 +23,29 @@ const editPost = (setEditPost, content, deleted) => {
   .catch(error => console.log("Error when updating post:", error))
 }
 
-const renderEditModal = (editInput, setEditInput) => {
+const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) => {
   if(editInput) {
     return (
       <div className="update-modal">
-        <div>
-          <input
-            placeholder="edit input"
-          />
-          <button
-            text="Post"
-          />
-          <p onClick={() => setEditInput(false)}>Cancel</p>
-        </div>
+        <CreatePost
+          updateStoreAfterPost={updateStoreAfterPost}
+          editContent={post.content}
+          editMutation={EDIT_POST}
+          postId={post.id}
+        />
+        <p onClick={() => setEditInput(false)}>Cancel</p>
       </div>
+      // <div className="update-modal">
+      //   <div>
+      //     <input
+      //       placeholder="edit input"
+      //     />
+      //     <button
+      //       text="Post"
+      //     />
+      //     <p onClick={() => setEditInput(false)}>Cancel</p>
+      //   </div>
+      // </div>
     )
   }
 }
@@ -66,7 +77,7 @@ const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
   }
 }
 
-const Post = ({post, deletePost}) => {
+const Post = ({post, updateStoreAfterPost}) => {
 
   const [setEditPost, { data }] = useMutation(EDIT_POST);
 
@@ -78,7 +89,7 @@ const Post = ({post, deletePost}) => {
 
   return (
     <div className="post">
-      {renderEditModal(editInput, setEditInput)}
+      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">
