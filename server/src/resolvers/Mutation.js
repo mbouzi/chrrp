@@ -34,9 +34,7 @@ async function login(parent, args, context, info) {
 }
 
 function post(parent, args, context, info) {
-  console.log("HIT")
   const userId = getUserId(context)
-  console.log("USERID:", userId)
   return context.prisma.createPost({
     content: args.content,
     deleted: args.deleted,
@@ -44,8 +42,17 @@ function post(parent, args, context, info) {
   })
 }
 
+function updatePost(parent, args, context, info) {
+  return context.prisma.updatePost({
+    content: args.content,
+    deleted: args.deleted
+  })
+}
+
+
 module.exports = {
   signup,
   login,
-  post
+  post,
+  updatePost
 }

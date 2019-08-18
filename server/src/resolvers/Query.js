@@ -1,3 +1,6 @@
+const { getUserId } = require('../utils')
+
+
 async function feed(parent, args, context, info) {
   const where = args.filter ? {
    OR: [
@@ -29,4 +32,5 @@ function currentUser(parent, args, context, info) {
 
 module.exports = {
   feed,
+  currentUser
 }

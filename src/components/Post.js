@@ -18,7 +18,7 @@ const Post = ({post}) => {
       <div className="edit-dropdown">
         <img src={edit} />
         <div className="dropdown">
-            <p><span><img src={cancel} /></span>Delete</p>
+            <img src={cancel} /><p>Delete</p>
         </div>
       </div>
       <p className="post-content">{post.content}</p>

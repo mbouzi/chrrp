@@ -4,6 +4,7 @@ import './styles/index.css'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker';
 
+import { ApolloProvider as ReactApolloHooksProvider  } from 'react-apollo-hooks';
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
 import { createHttpLink } from 'apollo-link-http'
@@ -35,9 +36,11 @@ const client = new ApolloClient({
 
 ReactDOM.render(
   <BrowserRouter>
-    <ApolloProvider client={client}>
-      <App />
-    </ApolloProvider>
+    <ReactApolloHooksProvider client={client}>
+      <ApolloProvider client={client}>
+        <App />
+      </ApolloProvider>
+    </ReactApolloHooksProvider>
   </BrowserRouter>,
   document.getElementById('root')
 )
