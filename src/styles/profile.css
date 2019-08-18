@@ -204,6 +204,10 @@
   text-align: center;
 }
 
-.update-modal div {
-  margin-top: 10%;
+.update-modal .update-post-wrapper {
+    margin: 10% auto;
+}
+
+.update-modal .create-post {
+    margin: 0 auto;
 }

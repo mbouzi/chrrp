@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
+import { useAlert } from 'react-alert'
+
 
 const POST_MUTATION = gql`
   mutation PostMutation($content: String!, $deleted: Boolean!) {
@@ -43,6 +45,8 @@ class CreatePost extends Component {
           update={(store, { data: { post } }) => {
               if(post) {
                 this.props.updateStoreAfterPost(store, post)
+              } else {
+                this.props.closeModal()
               }
             }
           }

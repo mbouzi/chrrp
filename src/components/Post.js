@@ -4,6 +4,7 @@ import edit from "../styles/assets/edit.svg"
 import cancel from "../styles/assets/cancel.svg"
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
+import { useAlert } from 'react-alert'
 
 import CreatePost from './CreatePost'
 
@@ -27,37 +28,29 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) =>
   if(editInput) {
     return (
       <div className="update-modal">
-        <CreatePost
-          updateStoreAfterPost={updateStoreAfterPost}
-          editContent={post.content}
-          editMutation={EDIT_POST}
-          postId={post.id}
-        />
-        <p onClick={() => setEditInput(false)}>Cancel</p>
+        <div className="update-post-wrapper">
+          <CreatePost
+            updateStoreAfterPost={updateStoreAfterPost}
+            editContent={post.content}
+            editMutation={EDIT_POST}
+            postId={post.id}
+            closeModal={() => setEditInput(false)}
+          />
+          <p onClick={() => setEditInput(false)}>Cancel</p>
+        </div>
       </div>
-      // <div className="update-modal">
-      //   <div>
-      //     <input
-      //       placeholder="edit input"
-      //     />
-      //     <button
-      //       text="Post"
-      //     />
-      //     <p onClick={() => setEditInput(false)}>Cancel</p>
-      //   </div>
-      // </div>
     )
   }
 }
 
-const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
+const renderDropdown = (openDropdown, setEditPost, setEditInput, post, alert) => {
   if(openDropdown) {
     return (
       <div className="dropdown">
         <div
           onClick={
-            () => setEditPost({variables: {postId: post.id, deleted: true}})
-            .then(result => window.location.reload())
+            () => setEditPost({variables: {id: post.id, postId: post.id, deleted: true}})
+            .then(result => alert.show())
             .catch(error => console.log("Error when updating post:", error))
           }
           className="delete"
@@ -86,6 +79,7 @@ const Post = ({post, updateStoreAfterPost}) => {
   const [editInput, setEditInput] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
 
+  const alert = useAlert()
 
   return (
     <div className="post">
@@ -99,7 +93,7 @@ const Post = ({post, updateStoreAfterPost}) => {
       </div>
       <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
         <img src={edit} />
-        {renderDropdown(openDropdown, setEditPost, setEditInput, post)}
+        {renderDropdown(openDropdown, setEditPost, setEditInput, post, alert)}
       </div>
       <p className="post-content">{post.content}</p>
     </div>

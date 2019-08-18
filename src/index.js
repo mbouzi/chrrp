@@ -4,6 +4,7 @@ import './styles/index.css'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker';
 
+import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import { ApolloProvider as ReactApolloHooksProvider  } from 'react-apollo-hooks';
 import { ApolloProvider } from 'react-apollo'
 import { ApolloClient } from 'apollo-client'
@@ -34,11 +35,39 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 })
 
+const options = {
+  position: "bottom center",
+  timeout: 2500,
+  offset: '11px',
+  transition: "fade", // or scale
+  containerStyle: {
+    background: "#3ABD7E",
+    width: "35%",
+    borderRadius: "36.6px",
+    boxShadow: "0 4px 7px 0 rgba(0, 0, 0, 0.5)",
+    color: "#FFF",
+    height: "40px",
+    marginTop: "20px",
+    fontWeight: "500"
+  }
+}
+
+
+const AlertTemplate = ({ message, style, options, close }) => (
+  <div style={style}>
+    <p className="close-button" onClick={close}>x</p>
+    <p style={{marginLeft: "10px"}}>{message ? message : "Error! Please try again."}</p>
+  </div>
+)
+
+
 ReactDOM.render(
   <BrowserRouter>
     <ReactApolloHooksProvider client={client}>
       <ApolloProvider client={client}>
-        <App />
+        <AlertProvider template={AlertTemplate} {...options}>
+          <App />
+        </AlertProvider>
       </ApolloProvider>
     </ReactApolloHooksProvider>
   </BrowserRouter>,

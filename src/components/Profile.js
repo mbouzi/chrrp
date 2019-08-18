@@ -6,6 +6,7 @@ import CreatePost from './CreatePost'
 import AccountInfo from './AccountInfo'
 import Post from './Post'
 import ClipLoader from 'react-spinners/ClipLoader';
+import { useAlert } from 'react-alert'
 
 import { css } from '@emotion/core';
 import '../styles/profile.css'
