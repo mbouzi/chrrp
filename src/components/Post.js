@@ -21,16 +21,34 @@ const editPost = (setEditPost, content, deleted) => {
   .catch(error => console.log("Error when updating post:", error))
 }
 
+const renderEditModal = (editInput, setEditInput) => {
+  if(editInput) {
+    return (
+      <div>
+        <input
+          placeholder="edit input"
+        />
+        <button
+          text="Post"
+        />
+        <p onClick={() => setEditInput(false)}>Cancel</p>
+      </div>
+    )
+  }
+}
+
 const Post = ({post, deletePost}) => {
 
   const [setEditPost, { data }] = useMutation(EDIT_POST);
 
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);
+  const [editInput, setEditInput] = useState(false);
 
 
   return (
     <div className="post">
+      {renderEditModal(editInput, setEditInput)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">
@@ -52,9 +70,15 @@ const Post = ({post, deletePost}) => {
               <img src={cancel} />
               <p>Delete</p>
             </div>
+            <div
+              onClick={() => setEditInput(true)}
+              className="delete"
+            >
+              <img src={cancel} />
+              <p>Edit</p>
+            </div>
         </div>
       </div>
-      <p className="post-content">{post.content}</p>
     </div>
   )
 }
