@@ -126,15 +126,17 @@
 .dropdown {
   /* display: none; */
   position: absolute;
+
 }
 
-.dropdown p {
+.dropdown .delete {
   background: #FFFFFF;
   border: 1px solid rgba(126, 139, 156, 0.6);
   box-sizing: border-box;
   box-shadow: 0px 2px 11px rgba(126, 139, 156, 0.3);
   padding: 11px;
   color: rgba(126, 139, 156, 0.6);
+  display: flex;
 }
 
 .dropdown img {

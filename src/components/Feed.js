@@ -4,10 +4,10 @@ import Post from './Post'
 
 
 
-const Feed = ({posts}) => {
+const Feed = ({posts, deletePost}) => {
   return (
     <div className="feed">
-      {posts.map(post => <Post key={post.id} post={post} />)}
+      {posts.map(post => <Post key={post.id} deletePost={deletePost} post={post} />)}
     </div>
 
   )

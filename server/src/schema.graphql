@@ -6,7 +6,7 @@ type Query {
 
 type Mutation {
   post(content: String!, deleted: Boolean!): Post!
-  updatePost(content: String!, deleted: Boolean!): Post!
+  updatePost(postId: ID!, content: String, deleted: Boolean): Post!
   signup(name: String!, password: String!): AuthPayload
   login(name: String!, password: String!): AuthPayload
 }
