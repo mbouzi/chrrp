@@ -2,11 +2,8 @@ import React,  { useState }  from 'react'
 import { timeDifferenceForDate } from '../utils'
 import edit from "../styles/assets/edit.svg"
 import cancel from "../styles/assets/cancel.svg"
-import { useMutation } from 'react-apollo-hooks';
-import gql from 'graphql-tag';
 
 import CreatePost from './CreatePost'
-
 
 const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
   if(editInput) {
@@ -43,14 +40,14 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
           }
           className="delete"
         >
-          <img src={cancel} />
+          <img alt="cancel" src={cancel} />
           <p>Delete</p>
         </div>
         <div
           onClick={() => setEditInput(true)}
           className="delete"
         >
-          <img src={cancel} />
+          <img alt="cancel" src={cancel} />
           <p>Edit</p>
         </div>
       </div>
@@ -60,8 +57,6 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
 
 const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId}) => {
 
-  const [content, setContent] = useState('');
-  const [deleted, setDeleted] = useState(false);
   const [editInput, setEditInput] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
 
@@ -77,7 +72,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
         </div>
       </div>
       <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
-        <img src={edit} />
+        <img alt="edit" src={edit} />
         {renderDropdown(openDropdown, deletePostMutation, setEditInput, post, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId)}
       </div>
       <p className="post-content">{post.content}</p>

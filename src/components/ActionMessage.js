@@ -13,7 +13,7 @@ const renderMessage = (message, closeMessage, undoEdit) => {
   } else {
     return (
       <div>
-        <img src={trash} />
+        <img alt="trash" src={trash} />
         <p>Post successfully deleted</p>
         <button onClick={() => closeMessage()}>Dismiss</button>
         <button onClick={() => undoEdit()} style={{marginRight: "5px"}}>Undo</button>

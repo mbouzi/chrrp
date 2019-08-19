@@ -1,13 +1,9 @@
 import React,  { useState } from 'react'
-import { useMutation } from 'react-apollo-hooks';
-import gql from 'graphql-tag'
-import { useAlert } from 'react-alert'
 
 const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, updateStoreAfterPost, closeModal, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId}) => {
 
   const postMutation = createPostMutation ? createPostMutation : editPostMutation;
   const [content, setContent] = useState('');
-  const [deleted, setDeleted] = useState(false);
 
   return (
     <div className="create-post">
@@ -18,7 +14,7 @@ const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, 
         type="text"
         placeholder="What's happening?"
       />
-     <button onClick={() => postMutation({variables: postId ? { id: postId, content, deleted, postId: postId } : { content, deleted } })
+     <button onClick={() => postMutation({variables: postId ? { id: postId, content, deleted: false, postId: postId } : { content, deleted: false } })
      .then((result) => {
        if(!createPostMutation) {
          closeModal()

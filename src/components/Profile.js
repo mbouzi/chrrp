@@ -12,8 +12,8 @@ import { css } from '@emotion/core';
 import '../styles/profile.css'
 
 const FEED_QUERY = gql`
-  {
-    feed {
+  query feed($filter: String!){
+    feed(filter: $filter) {
       id
       content
       deleted
@@ -67,7 +67,7 @@ const _updateCacheAfterPost = (store, post, deleteMutation) => {
     store.writeQuery({
       query: FEED_QUERY,
       data: { feed: data.feed.filter((filteredPost) => {
-         return filteredPost.id != post.id
+         return filteredPost.id !== post.id
       })}
     })
   } else {
@@ -131,6 +131,8 @@ const Profile = () => {
   const [renderMessage, setRenderMessage] = useState(false);
   const [message, setMessage] = useState("");
   const [deletedPostId, setDeletedPostId] = useState("");
+  const [filter, setFilter] = useState("");
+
 
   const [createPostMutation] = useMutation(POST_MUTATION,{
     update(store, { data: { post } }) {
@@ -156,10 +158,20 @@ const Profile = () => {
     }
   });
 
-  const { data: dataFour, loading, error} = useQuery(FEED_QUERY);
+  const { data: dataFour, loading, error} = useQuery(FEED_QUERY,
+    {variables: {filter: filter}}
+  );
 
   return (
     <div className="profile">
+      <div className="searchbar">
+        <input
+          value={filter}
+          onChange={e => setFilter(e.target.value)}
+          type="text"
+          placeholder="Search"
+        />
+      </div>
       <AccountInfo />
       <div className="post-actions">
         <CreatePost
