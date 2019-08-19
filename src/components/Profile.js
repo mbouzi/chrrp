@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Query } from 'react-apollo'
+import React, { useState } from 'react'
+import { useQuery, useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag'
 
 import CreatePost from './CreatePost'
@@ -25,6 +25,30 @@ const FEED_QUERY = gql`
   }
 `
 
+const POST_MUTATION = gql`
+  mutation PostMutation($content: String!, $deleted: Boolean!) {
+    post(content: $content, deleted: $deleted) {
+      id
+      content
+      deleted
+      createdAt
+      postedBy {
+        name
+      }
+    }
+  }
+`
+
+const EDIT_POST = gql`
+  mutation updatePost($postId: ID!, $content: String, $deleted: Boolean){
+    updatePost(postId: $postId, content: $content, deleted: $deleted) {
+      id
+      content
+      deleted
+    }
+  }
+`
+
 const LoadingStyle = css`
     margin: 0 auto;
     position: relative;
@@ -32,98 +56,118 @@ const LoadingStyle = css`
     top: 100px;
 `;
 
-
-class Profile extends Component {
-
-  state = {
-    renderMessage: false,
-    message: ''
-  }
-
-  _updateCacheAfterPost = (store, post, deleteMutation) => {
-    console.log("UPDATE HIT:")
-    if(deleteMutation) {
-      const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
-      console.log("DATA:", data)
-      const filteredData = data.feed.filter((filteredPost, index, arr) => {
-        return filteredPost.id != post.id
-      })
-      data.feed = filteredData
-      console.log("DATA:", filteredData, data)
-      store.writeQuery({
-        query: FEED_QUERY,
-        data
-      })
-    } else {
-      const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
-      data.feed.unshift(post)
-      store.writeQuery({
-        query: FEED_QUERY,
-        data
-      })
-    }
-  }
-
-
-  handleActionMessage = (message) => {
-    this.setState({
-      message: message ? message : "",
-      renderMessage: true
+const _updateCacheAfterPost = (store, post, deleteMutation) => {
+  console.log("UPDATE HIT:")
+  if(deleteMutation) {
+    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+    store.writeQuery({
+      query: FEED_QUERY,
+      data: { feed: data.feed.filter((filteredPost) => {
+         return filteredPost.id != post.id
+      })}
+    })
+  } else {
+    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+    data.feed.unshift(post)
+    store.writeQuery({
+      query: FEED_QUERY,
+      data
     })
   }
+}
 
-  render() {
-    // const { content } = this.state
+
+const handleActionMessage = (message, postId, setRenderMessage, setMessage, setDeletedPostId) => {
+  setMessage(message ? message : "")
+  setRenderMessage(true)
+  setDeletedPostId(postId ? postId : "")
+}
+
+
+const renderFeed = (data, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
+  if (loading) {
     return (
-      <div className="profile">
-        <AccountInfo />
-        <div className="post-actions">
-          <CreatePost
-            updateStoreAfterPost={this._updateCacheAfterPost}
-            handleActionMessage={this.handleActionMessage}
-          />
-          <Query query={FEED_QUERY}>
-            {({ loading, error, data }) => {
-              if (loading) {
-                return (
-                  <ClipLoader
-                    css={LoadingStyle}
-                    sizeUnit={"px"}
-                    size={50}
-                    color="#2582FF"
-                    loading={loading}
-                  />
-                )
-              }
-              if (error) {
-                console.log("ERROR:", error)
-                return <div>Error</div>
-              }
-              const posts = data.feed
-
-              return (
-                <div className="feed">
-                  {posts.map(post =>
-                    <Post
-                      key={post.id}
-                      updateStoreAfterPost={this._updateCacheAfterPost}
-                      post={post}
-                      handleActionMessage={this.handleActionMessage}
-                    />
-                  )}
-                </div>
-              )
-            }}
-          </Query>
-        </div>
-        <ActionMessage
-          visible={this.state.renderMessage}
-          message={this.state.message}
-          closeMessage={() => this.setState({renderMessage: false})}
-        />
-      </div>
+      <ClipLoader
+        css={LoadingStyle}
+        sizeUnit={"px"}
+        size={50}
+        color="#2582FF"
+        loading={loading}
+      />
     )
   }
+  if (error) {
+    console.log("ERROR:", error)
+    return <div>Error</div>
+  }
+  const posts = data.feed
+
+  return (
+    <div className="feed">
+      {posts.map(post =>
+        <Post
+          key={post.id}
+          updateStoreAfterPost={_updateCacheAfterPost}
+          post={post}
+          handleActionMessage={handleActionMessage}
+          setRenderMessage={setRenderMessage}
+          setMessage={setMessage}
+          setDeletedPostId={setDeletedPostId}
+          editPostMutation={editPostMutation}
+          deletePostMutation={deletePostMutation}
+        />
+      )}
+    </div>
+  )
+}
+
+const Profile = () => {
+
+
+  const [renderMessage, setRenderMessage] = useState(false);
+  const [message, setMessage] = useState("");
+  const [deletedPostId, setDeletedPostId] = useState("");
+
+  const [createPostMutation] = useMutation(POST_MUTATION,{
+    update(store, { data: { post } }) {
+        if(post) {
+          _updateCacheAfterPost(store, post)
+        }
+      }
+  });
+
+  const [editPostMutation] = useMutation(EDIT_POST);
+
+  const [deletePostMutation] = useMutation(EDIT_POST,{
+    update(store, { data: dataTwo }) {
+        _updateCacheAfterPost(store, dataTwo.updatePost, "true")
+      }
+  });
+
+  const { data: dataThree, loading, error} = useQuery(FEED_QUERY);
+
+  return (
+    <div className="profile">
+      <AccountInfo />
+      <div className="post-actions">
+        <CreatePost
+          updateStoreAfterPost={_updateCacheAfterPost}
+          handleActionMessage={handleActionMessage}
+          setRenderMessage={setRenderMessage}
+          setMessage={setMessage}
+          setDeletedPostId={setDeletedPostId}
+          createPostMutation={createPostMutation}
+        />
+        {renderFeed(dataThree, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
+      </div>
+      <ActionMessage
+        visible={renderMessage}
+        message={message}
+        closeMessage={() => setRenderMessage(false)}
+        // undoEdit={}
+      />
+    </div>
+  )
 }
 
 export default Profile

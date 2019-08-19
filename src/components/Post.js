@@ -7,23 +7,8 @@ import gql from 'graphql-tag';
 
 import CreatePost from './CreatePost'
 
-const EDIT_POST = gql`
-  mutation updatePost($postId: ID!, $content: String, $deleted: Boolean){
-    updatePost(postId: $postId, content: $content, deleted: $deleted) {
-      id
-      content
-      deleted
-    }
-  }
-`
 
-// const editPost = (setEditPost, content, deleted) => {
-//   setEditPost({variables: {content: content, deleted: deleted}})
-//   .then(result => window.location.reload())
-//   .catch(error => console.log("Error when updating post:", error))
-// }
-
-const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage) => {
+const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
   if(editInput) {
     return (
       <div className="update-modal">
@@ -31,10 +16,13 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, ha
           <CreatePost
             updateStoreAfterPost={updateStoreAfterPost}
             editContent={post.content}
-            editMutation={EDIT_POST}
             postId={post.id}
             closeModal={() => setEditInput(false)}
             handleActionMessage={handleActionMessage}
+            setRenderMessage={setRenderMessage}
+            setMessage={setMessage}
+            setDeletedPostId={setDeletedPostId}
+            editPostMutation={editPostMutation}
           />
           <p onClick={() => setEditInput(false)}>Cancel</p>
         </div>
@@ -43,14 +31,14 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, ha
   }
 }
 
-const renderDropdown = (openDropdown, setEditPost, setEditInput, post, handleActionMessage) => {
+const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId) => {
   if(openDropdown) {
     return (
       <div className="dropdown">
         <div
           onClick={
-            () => setEditPost({variables: {id: post.id, postId: post.id, deleted: true}})
-            .then(result => handleActionMessage())
+            () => deletePostMutation({variables: {id: post.id, postId: post.id, deleted: true}})
+            .then(result => handleActionMessage(null, post.id, setRenderMessage, setMessage, setDeletedPostId))
             .catch(error => console.log("Error when updating post:", error))
           }
           className="delete"
@@ -70,13 +58,7 @@ const renderDropdown = (openDropdown, setEditPost, setEditInput, post, handleAct
   }
 }
 
-const Post = ({post, updateStoreAfterPost, handleActionMessage}) => {
-
-  const [setEditPost, { data }] = useMutation(EDIT_POST,{
-    update(store, { data }) {
-        updateStoreAfterPost(store, data.updatePost, "true")
-      }
-  });
+const Post = ({post, updateStoreAfterPost, handleActionMessage, createPostMutation, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId}) => {
 
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);
@@ -86,7 +68,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage}) => {
 
   return (
     <div className="post">
-      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage)}
+      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">
@@ -96,7 +78,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage}) => {
       </div>
       <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
         <img src={edit} />
-        {renderDropdown(openDropdown, setEditPost, setEditInput, post, handleActionMessage)}
+        {renderDropdown(openDropdown, deletePostMutation, setEditInput, post, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId)}
       </div>
       <p className="post-content">{post.content}</p>
     </div>

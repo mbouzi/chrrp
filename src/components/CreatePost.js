@@ -3,34 +3,11 @@ import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag'
 import { useAlert } from 'react-alert'
 
+const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, updateStoreAfterPost, closeModal, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId}) => {
 
-const POST_MUTATION = gql`
-  mutation PostMutation($content: String!, $deleted: Boolean!) {
-    post(content: $content, deleted: $deleted) {
-      id
-      content
-      deleted
-      createdAt
-      postedBy {
-        name
-      }
-    }
-  }
-`
-
-const CreatePost = ({editMutation, editContent, postId, updateStoreAfterPost, closeModal, handleActionMessage}) => {
-
-  const postMutation = editMutation ? editMutation : POST_MUTATION;
+  const postMutation = createPostMutation ? createPostMutation : editPostMutation;
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);
-  const [createPost, { data }] = useMutation(postMutation,{
-    update(store, { data: { post } }) {
-        if(post) {
-          updateStoreAfterPost(store, post)
-        }
-      }
-  });
-
 
   return (
     <div className="create-post">
@@ -41,13 +18,13 @@ const CreatePost = ({editMutation, editContent, postId, updateStoreAfterPost, cl
         type="text"
         placeholder="What's happening?"
       />
-     <button onClick={() => createPost({variables: postId ? { id: postId, content, deleted, postId: postId } : { content, deleted } })
+     <button onClick={() => postMutation({variables: postId ? { id: postId, content, deleted, postId: postId } : { content, deleted } })
      .then((result) => {
-       if(editMutation) {
+       if(!createPostMutation) {
          closeModal()
-         handleActionMessage("You have edited the post succeessfully!")
+         handleActionMessage("You have edited the post succeessfully!", null, setRenderMessage, setMessage, setDeletedPostId)
        } else {
-         handleActionMessage("You have posted succeessfully!")
+         handleActionMessage("You have posted succeessfully!", null, setRenderMessage, setMessage, setDeletedPostId)
        }
      })
      .catch((error) => console.log("Error when updating post:", error))}
