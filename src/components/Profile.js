@@ -53,6 +53,24 @@ const EDIT_POST = gql`
   }
 `
 
+const USER_QUERY = gql`
+  query user($name: String) {
+    user(name: $name) {
+      id
+      name
+      posts {
+        id
+        content
+        deleted
+        createdAt
+        postedBy {
+          name
+        }
+      }
+    }
+  }
+`
+
 const LoadingStyle = css`
     margin: 0 auto;
     position: relative;
@@ -92,7 +110,8 @@ const handleActionMessage = (message, postId, setRenderMessage, setMessage, setD
 }
 
 
-const renderFeed = (data, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
+const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
+
   if (loading) {
     return (
       <ClipLoader
@@ -108,7 +127,6 @@ const renderFeed = (data, loading, error, deletePostMutation, editPostMutation, 
     console.log("ERROR:", error)
     return <div>Error</div>
   }
-  const posts = data.feed
 
   return (
     <div className="feed">
@@ -129,8 +147,9 @@ const renderFeed = (data, loading, error, deletePostMutation, editPostMutation, 
   )
 }
 
-const Profile = () => {
+const Profile = ({match, currentUser}) => {
 
+  const username = match.params.name;
 
   const [renderMessage, setRenderMessage] = useState(false);
   const [message, setMessage] = useState("");
@@ -166,6 +185,11 @@ const Profile = () => {
     {variables: {filter: filter}}
   );
 
+  const { data: dataFive, loading: loadingTwo, error: errorTwo} = useQuery(USER_QUERY,
+    {variables: {name: username}}
+  );
+
+
   return (
     <div className="profile">
       <div className="searchbar">
@@ -176,7 +200,7 @@ const Profile = () => {
           placeholder="Search"
         />
       </div>
-      <AccountInfo />
+      <AccountInfo currentUser={currentUser} />
       <div className="post-actions">
         <CreatePost
           updateStoreAfterPost={_updateCacheAfterPost}
@@ -185,7 +209,8 @@ const Profile = () => {
           setMessage={setMessage}
           createPostMutation={createPostMutation}
         />
-        {renderFeed(dataFour, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
+          {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
+            renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
       </div>
       <ActionMessage
         visible={renderMessage}

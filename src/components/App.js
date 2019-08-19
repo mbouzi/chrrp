@@ -17,6 +17,16 @@ const CURRENT_USER_QUERY = gql`
   query currentUser {
     currentUser {
       id
+      name
+      posts {
+        id
+        content
+        deleted
+        createdAt
+        postedBy {
+          name
+        }
+      }
     }
   }
 `
@@ -65,7 +75,8 @@ const renderApp = (data, loading, error) => {
     }
     return (
       <Switch>
-        <Route exact path="/" render={(props) => <Profile {...props} userId={data.currentUser.id} />} />
+        <Route exact path="/" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
+        <Route exact path="/:name" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
       </Switch>
     )
   }

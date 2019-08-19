@@ -3,12 +3,12 @@ import location from "../styles/assets/location.svg"
 import link from "../styles/assets/link.svg"
 import date from "../styles/assets/date.svg"
 
-const AccountInfo = ({user}) => {
+const AccountInfo = ({currentUser}) => {
   return (
     <div className="account-info">
       <div className="account-info-main">
         <div className="account-info-image"></div>
-        <p className="account-info-username">KidCudi</p>
+        <p className="account-info-username">{currentUser.name}</p>
         <p className="account-info-bio">Musical anarchist/the originator</p>
       </div>
       <ul className="account-info-sub">

@@ -26,8 +26,10 @@
   line-height: 21px;
   font-weight: bold;
   display: inline-block;
-  float: right;
-  margin-right: 35px;
+  margin-bottom: 0;
+  position: relative;
+  bottom: 20px;
+  left: 15px;
 }
 
 .account-info-bio {

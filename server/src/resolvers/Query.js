@@ -30,7 +30,12 @@ function currentUser(parent, args, context, info) {
     return context.prisma.user({id: userId})
 }
 
+function user(parent, args, context, info) {
+    return context.prisma.user({name: args.name})
+}
+
 module.exports = {
   feed,
-  currentUser
+  currentUser,
+  user
 }

@@ -62,7 +62,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
 
   return (
     <div className="post">
-      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage)}
+      {setRenderMessage && renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">
@@ -70,10 +70,12 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
           <p className="user-post-date"> {timeDifferenceForDate(post.createdAt)}</p>
         </div>
       </div>
-      <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
-        <img alt="edit" src={edit} />
-        {renderDropdown(openDropdown, deletePostMutation, setEditInput, post, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId)}
-      </div>
+      { setRenderMessage &&
+        <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
+          <img alt="edit" src={edit} />
+          {renderDropdown(openDropdown, deletePostMutation, setEditInput, post, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId)}
+        </div>
+      }
       <p className="post-content">{post.content}</p>
     </div>
   )
