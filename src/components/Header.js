@@ -5,6 +5,8 @@ import logo from '../styles/assets/logo.svg'
 
 import { AUTH_TOKEN } from '../constants'
 
+import '../styles/header.css'
+
 class Header extends Component {
 
   render() {
@@ -21,7 +23,7 @@ class Header extends Component {
         <div>
           {authToken ? (
            <div
-             className="ml1 pointer black"
+             className="logout"
              onClick={() => {
                localStorage.removeItem(AUTH_TOKEN)
                this.props.history.push(`/login`)
@@ -31,7 +33,7 @@ class Header extends Component {
              logout
            </div>
          ) : (
-           <Link to="/login" className="ml1 no-underline black">
+           <Link to="/login" className="logout">
              login
            </Link>
          )}

@@ -37,10 +37,22 @@
   line-height: 14px;
 }
 
+.account-info-sub {
+  list-style-type: none;
+  padding: 0;
+}
+
 .account-info-sub li {
   font-size: 12px;
   line-height: 14px;
   color: #7E8B9C;
+  margin-bottom: 10px;
+}
+
+.account-info-sub li span {
+  margin-right: 10px;
+  position: relative;
+  top: 2px;
 }
 
 .post-actions {
@@ -273,4 +285,38 @@
   border: 1px solid #FFF;
   background: #FFF;
   color: #3ABD7E;
+}
+
+.searchbar {
+  width: 660px;
+  margin: 0 auto;
+  position: absolute;
+}
+
+.searchbar input {
+  float: right;
+  bottom: 48px;
+  position: relative;
+  border-radius: 55px;
+  border: 1px solid #B2B9C4;
+  box-sizing: border-box;
+  width: 227px;
+  height: 30px;
+  padding-left: 22px;
+  font-size: 14px;
+}
+
+.searchbar ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #7E8B9C;
+  opacity: .6; /* Firefox */
+}
+
+.searchbar :-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #7E8B9C;
+  opacity: .6;
+}
+
+.searchbar ::-ms-input-placeholder { /* Microsoft Edge */
+  color: #7E8B9C;
+  opacity: .6;
 }
