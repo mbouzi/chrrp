@@ -40,19 +40,34 @@ class Profile extends Component {
     message: ''
   }
 
-  _updateCacheAfterPost = (store, post) => {
-    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
-    data.feed.unshift(post)
-    store.writeQuery({
-      query: FEED_QUERY,
-      data
-    })
+  _updateCacheAfterPost = (store, post, deleteMutation) => {
+    console.log("UPDATE HIT:")
+    if(deleteMutation) {
+      const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+      console.log("DATA:", data)
+      const filteredData = data.feed.filter((filteredPost, index, arr) => {
+        return filteredPost.id != post.id
+      })
+      data.feed = filteredData
+      console.log("DATA:", filteredData, data)
+      store.writeQuery({
+        query: FEED_QUERY,
+        data
+      })
+    } else {
+      const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+      data.feed.unshift(post)
+      store.writeQuery({
+        query: FEED_QUERY,
+        data
+      })
+    }
   }
 
 
   handleActionMessage = (message) => {
     this.setState({
-      message: message,
+      message: message ? message : "",
       renderMessage: true
     })
   }
@@ -88,13 +103,24 @@ class Profile extends Component {
 
               return (
                 <div className="feed">
-                  {posts.map(post => <Post key={post.id} updateStoreAfterPost={this._updateCacheAfterPost} post={post} />)}
+                  {posts.map(post =>
+                    <Post
+                      key={post.id}
+                      updateStoreAfterPost={this._updateCacheAfterPost}
+                      post={post}
+                      handleActionMessage={this.handleActionMessage}
+                    />
+                  )}
                 </div>
               )
             }}
           </Query>
         </div>
-        <ActionMessage visible={this.state.renderMessage} message={this.state.message} />
+        <ActionMessage
+          visible={this.state.renderMessage}
+          message={this.state.message}
+          closeMessage={() => this.setState({renderMessage: false})}
+        />
       </div>
     )
   }

@@ -27,8 +27,6 @@ const CreatePost = ({editMutation, editContent, postId, updateStoreAfterPost, cl
     update(store, { data: { post } }) {
         if(post) {
           updateStoreAfterPost(store, post)
-        } else {
-          closeModal()
         }
       }
   });
@@ -44,7 +42,14 @@ const CreatePost = ({editMutation, editContent, postId, updateStoreAfterPost, cl
         placeholder="What's happening?"
       />
      <button onClick={() => createPost({variables: postId ? { id: postId, content, deleted, postId: postId } : { content, deleted } })
-     .then(result => handleActionMessage("You have posted succeessfully!"))
+     .then((result) => {
+       if(editMutation) {
+         closeModal()
+         handleActionMessage("You have edited the post succeessfully!")
+       } else {
+         handleActionMessage("You have posted succeessfully!")
+       }
+     })
      .catch((error) => console.log("Error when updating post:", error))}
      >
       Post

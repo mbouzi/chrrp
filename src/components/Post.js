@@ -17,13 +17,13 @@ const EDIT_POST = gql`
   }
 `
 
-const editPost = (setEditPost, content, deleted) => {
-  setEditPost({variables: {content: content, deleted: deleted}})
-  .then(result => window.location.reload())
-  .catch(error => console.log("Error when updating post:", error))
-}
+// const editPost = (setEditPost, content, deleted) => {
+//   setEditPost({variables: {content: content, deleted: deleted}})
+//   .then(result => window.location.reload())
+//   .catch(error => console.log("Error when updating post:", error))
+// }
 
-const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) => {
+const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage) => {
   if(editInput) {
     return (
       <div className="update-modal">
@@ -34,6 +34,7 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) =>
             editMutation={EDIT_POST}
             postId={post.id}
             closeModal={() => setEditInput(false)}
+            handleActionMessage={handleActionMessage}
           />
           <p onClick={() => setEditInput(false)}>Cancel</p>
         </div>
@@ -42,14 +43,14 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) =>
   }
 }
 
-const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
+const renderDropdown = (openDropdown, setEditPost, setEditInput, post, handleActionMessage) => {
   if(openDropdown) {
     return (
       <div className="dropdown">
         <div
           onClick={
             () => setEditPost({variables: {id: post.id, postId: post.id, deleted: true}})
-            .then(result => window.location.reload())
+            .then(result => handleActionMessage())
             .catch(error => console.log("Error when updating post:", error))
           }
           className="delete"
@@ -69,9 +70,13 @@ const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
   }
 }
 
-const Post = ({post, updateStoreAfterPost}) => {
+const Post = ({post, updateStoreAfterPost, handleActionMessage}) => {
 
-  const [setEditPost, { data }] = useMutation(EDIT_POST);
+  const [setEditPost, { data }] = useMutation(EDIT_POST,{
+    update(store, { data }) {
+        updateStoreAfterPost(store, data.updatePost, "true")
+      }
+  });
 
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);
@@ -81,7 +86,7 @@ const Post = ({post, updateStoreAfterPost}) => {
 
   return (
     <div className="post">
-      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost)}
+      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">
@@ -91,7 +96,7 @@ const Post = ({post, updateStoreAfterPost}) => {
       </div>
       <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
         <img src={edit} />
-        {renderDropdown(openDropdown, setEditPost, setEditInput, post)}
+        {renderDropdown(openDropdown, setEditPost, setEditInput, post, handleActionMessage)}
       </div>
       <p className="post-content">{post.content}</p>
     </div>

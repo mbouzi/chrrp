@@ -231,6 +231,12 @@
   transition: width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s;
 }
 
+.action-message img {
+  float: left;
+  left: 25px;
+  top: 24px;
+  position: relative;
+}
 
 .action-message p {
   font-size: 16px;
@@ -239,7 +245,7 @@
   text-align: center;
   color: #FFF;
   position: relative;
-  left: 20px;
+  left: 40px;
   top: 10px;
   float: left;
 }
