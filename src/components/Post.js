@@ -4,7 +4,6 @@ import edit from "../styles/assets/edit.svg"
 import cancel from "../styles/assets/cancel.svg"
 import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag';
-import { useAlert } from 'react-alert'
 
 import CreatePost from './CreatePost'
 
@@ -43,14 +42,14 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost) =>
   }
 }
 
-const renderDropdown = (openDropdown, setEditPost, setEditInput, post, alert) => {
+const renderDropdown = (openDropdown, setEditPost, setEditInput, post) => {
   if(openDropdown) {
     return (
       <div className="dropdown">
         <div
           onClick={
             () => setEditPost({variables: {id: post.id, postId: post.id, deleted: true}})
-            .then(result => alert.show())
+            .then(result => window.location.reload())
             .catch(error => console.log("Error when updating post:", error))
           }
           className="delete"
@@ -79,7 +78,6 @@ const Post = ({post, updateStoreAfterPost}) => {
   const [editInput, setEditInput] = useState(false);
   const [openDropdown, setOpenDropdown] = useState(false);
 
-  const alert = useAlert()
 
   return (
     <div className="post">
@@ -93,7 +91,7 @@ const Post = ({post, updateStoreAfterPost}) => {
       </div>
       <div onClick={() => setOpenDropdown(!openDropdown)} className="edit-dropdown">
         <img src={edit} />
-        {renderDropdown(openDropdown, setEditPost, setEditInput, post, alert)}
+        {renderDropdown(openDropdown, setEditPost, setEditInput, post)}
       </div>
       <p className="post-content">{post.content}</p>
     </div>

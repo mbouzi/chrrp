@@ -6,7 +6,7 @@ import CreatePost from './CreatePost'
 import AccountInfo from './AccountInfo'
 import Post from './Post'
 import ClipLoader from 'react-spinners/ClipLoader';
-import { useAlert } from 'react-alert'
+import ActionMessage from './ActionMessage'
 
 import { css } from '@emotion/core';
 import '../styles/profile.css'
@@ -34,10 +34,11 @@ const LoadingStyle = css`
 
 
 class Profile extends Component {
-  // state = {
-  //   description: '',
-  //   url: '',
-  // }
+
+  state = {
+    renderMessage: false,
+    message: ''
+  }
 
   _updateCacheAfterPost = (store, post) => {
     const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
@@ -48,13 +49,24 @@ class Profile extends Component {
     })
   }
 
+
+  handleActionMessage = (message) => {
+    this.setState({
+      message: message,
+      renderMessage: true
+    })
+  }
+
   render() {
     // const { content } = this.state
     return (
       <div className="profile">
         <AccountInfo />
         <div className="post-actions">
-          <CreatePost updateStoreAfterPost={this._updateCacheAfterPost}  />
+          <CreatePost
+            updateStoreAfterPost={this._updateCacheAfterPost}
+            handleActionMessage={this.handleActionMessage}
+          />
           <Query query={FEED_QUERY}>
             {({ loading, error, data }) => {
               if (loading) {
@@ -82,6 +94,7 @@ class Profile extends Component {
             }}
           </Query>
         </div>
+        <ActionMessage visible={this.state.renderMessage} message={this.state.message} />
       </div>
     )
   }

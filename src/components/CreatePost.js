@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { Mutation } from 'react-apollo'
+import React,  { useState } from 'react'
+import { useMutation } from 'react-apollo-hooks';
 import gql from 'graphql-tag'
 import { useAlert } from 'react-alert'
 
@@ -18,44 +18,40 @@ const POST_MUTATION = gql`
   }
 `
 
-class CreatePost extends Component {
+const CreatePost = ({editMutation, editContent, postId, updateStoreAfterPost, closeModal, handleActionMessage}) => {
 
-  state = {
-    content: '',
-    deleted: false,
-  }
+  const postMutation = editMutation ? editMutation : POST_MUTATION;
+  const [content, setContent] = useState('');
+  const [deleted, setDeleted] = useState(false);
+  const [createPost, { data }] = useMutation(postMutation,{
+    update(store, { data: { post } }) {
+        if(post) {
+          updateStoreAfterPost(store, post)
+        } else {
+          closeModal()
+        }
+      }
+  });
 
-  render() {
-    const { content, deleted } = this.state
 
-    const editMutation = this.props.editMutation
+  return (
+    <div className="create-post">
+      <div className="create-post-image"> </div>
+      <input
+        value={editContent & !content ? editContent : content}
+        onChange={e => setContent(e.target.value)}
+        type="text"
+        placeholder="What's happening?"
+      />
+     <button onClick={() => createPost({variables: postId ? { id: postId, content, deleted, postId: postId } : { content, deleted } })
+     .then(result => handleActionMessage("You have posted succeessfully!"))
+     .catch((error) => console.log("Error when updating post:", error))}
+     >
+      Post
+     </button>
+    </div>
+  )
 
-    return (
-      <div className="create-post">
-        <div className="create-post-image"> </div>
-        <input
-          value={this.props.editContent & !content ? this.props.editContent : content}
-          onChange={e => this.setState({ content: e.target.value })}
-          type="text"
-          placeholder="What's happening?"
-        />
-        <Mutation
-          mutation={editMutation ? editMutation : POST_MUTATION}
-          variables={ this.props.postId ? { id: this.props.postId, content, deleted, postId: this.props.postId } : { content, deleted } }
-          update={(store, { data: { post } }) => {
-              if(post) {
-                this.props.updateStoreAfterPost(store, post)
-              } else {
-                this.props.closeModal()
-              }
-            }
-          }
-        >
-         {postMutation => <button onClick={postMutation}>Post</button>}
-        </Mutation>
-      </div>
-    )
-  }
 }
 
 export default CreatePost
