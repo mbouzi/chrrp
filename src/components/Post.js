@@ -31,6 +31,8 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
   if(openDropdown) {
     return (
       <div className="dropdown">
+        <div className="arrow"> </div>
+        <div className="inner-arrow"> </div>
         <div
           onClick={
             () => deletePostMutation({variables: {id: post.id, postId: post.id, deleted: true}})
