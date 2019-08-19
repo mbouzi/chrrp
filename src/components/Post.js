@@ -58,7 +58,7 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
   }
 }
 
-const Post = ({post, updateStoreAfterPost, handleActionMessage, createPostMutation, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId}) => {
+const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId}) => {
 
   const [content, setContent] = useState('');
   const [deleted, setDeleted] = useState(false);

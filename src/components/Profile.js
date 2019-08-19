@@ -45,6 +45,10 @@ const EDIT_POST = gql`
       id
       content
       deleted
+      createdAt
+      postedBy {
+        name
+      }
     }
   }
 `
@@ -144,7 +148,15 @@ const Profile = () => {
       }
   });
 
-  const { data: dataThree, loading, error} = useQuery(FEED_QUERY);
+  const [undoDeletePostMutation] = useMutation(EDIT_POST,{
+    update(store, { data: dataThree }) {
+      if(dataThree) {
+        _updateCacheAfterPost(store, dataThree.updatePost)
+      }
+    }
+  });
+
+  const { data: dataFour, loading, error} = useQuery(FEED_QUERY);
 
   return (
     <div className="profile">
@@ -158,13 +170,16 @@ const Profile = () => {
           setDeletedPostId={setDeletedPostId}
           createPostMutation={createPostMutation}
         />
-        {renderFeed(dataThree, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
+        {renderFeed(dataFour, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
       </div>
       <ActionMessage
         visible={renderMessage}
         message={message}
         closeMessage={() => setRenderMessage(false)}
-        // undoEdit={}
+        undoEdit={ () => undoDeletePostMutation({variables: { id: deletedPostId, deleted: true, postId: deletedPostId }}).then((result) => {
+          handleActionMessage("You have succeessfully undone your delete!", null, setRenderMessage, setMessage, setDeletedPostId)
+        })
+        .catch((error) => console.log("Error when updating post:", error))}
       />
     </div>
   )
