@@ -60,18 +60,20 @@ const LoadingStyle = css`
     top: 100px;
 `;
 
-const _updateCacheAfterPost = (store, post, deleteMutation) => {
-  console.log("UPDATE HIT:")
+const _updateCacheAfterPost = (store, post, filter, deleteMutation) => {
   if(deleteMutation) {
-    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: filter} })
     store.writeQuery({
       query: FEED_QUERY,
-      data: { feed: data.feed.filter((filteredPost) => {
-         return filteredPost.id !== post.id
-      })}
+      data: {
+        feed: data.feed.filter((filteredPost, index) => {
+          return filteredPost.id !== post.id
+        })
+      },
+      variables: {filter: filter}
     })
   } else {
-    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: ""} })
+    const data = store.readQuery({ query: FEED_QUERY, variables: {filter: filter} })
     data.feed.unshift(post)
     store.writeQuery({
       query: FEED_QUERY,
@@ -84,7 +86,9 @@ const _updateCacheAfterPost = (store, post, deleteMutation) => {
 const handleActionMessage = (message, postId, setRenderMessage, setMessage, setDeletedPostId) => {
   setMessage(message ? message : "")
   setRenderMessage(true)
-  setDeletedPostId(postId ? postId : "")
+  if(postId && setDeletedPostId) {
+    setDeletedPostId(postId ? postId : "")
+  }
 }
 
 
@@ -108,9 +112,9 @@ const renderFeed = (data, loading, error, deletePostMutation, editPostMutation, 
 
   return (
     <div className="feed">
-      {posts.map(post =>
+      {posts.map((post, index) =>
         <Post
-          key={post.id}
+          key={index}
           updateStoreAfterPost={_updateCacheAfterPost}
           post={post}
           handleActionMessage={handleActionMessage}
@@ -137,7 +141,7 @@ const Profile = () => {
   const [createPostMutation] = useMutation(POST_MUTATION,{
     update(store, { data: { post } }) {
         if(post) {
-          _updateCacheAfterPost(store, post)
+          _updateCacheAfterPost(store, post, filter)
         }
       }
   });
@@ -146,14 +150,14 @@ const Profile = () => {
 
   const [deletePostMutation] = useMutation(EDIT_POST,{
     update(store, { data: dataTwo }) {
-        _updateCacheAfterPost(store, dataTwo.updatePost, "true")
+        _updateCacheAfterPost(store, dataTwo.updatePost,filter, "true")
       }
   });
 
   const [undoDeletePostMutation] = useMutation(EDIT_POST,{
     update(store, { data: dataThree }) {
       if(dataThree) {
-        _updateCacheAfterPost(store, dataThree.updatePost)
+        _updateCacheAfterPost(store, dataThree.updatePost, filter)
       }
     }
   });
@@ -179,7 +183,6 @@ const Profile = () => {
           handleActionMessage={handleActionMessage}
           setRenderMessage={setRenderMessage}
           setMessage={setMessage}
-          setDeletedPostId={setDeletedPostId}
           createPostMutation={createPostMutation}
         />
         {renderFeed(dataFour, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
@@ -188,7 +191,7 @@ const Profile = () => {
         visible={renderMessage}
         message={message}
         closeMessage={() => setRenderMessage(false)}
-        undoEdit={ () => undoDeletePostMutation({variables: { id: deletedPostId, deleted: true, postId: deletedPostId }}).then((result) => {
+        undoEdit={ () => undoDeletePostMutation({variables: { id: deletedPostId, deleted: false, postId: deletedPostId }}).then((result) => {
           handleActionMessage("You have succeessfully undone your delete!", null, setRenderMessage, setMessage, setDeletedPostId)
         })
         .catch((error) => console.log("Error when updating post:", error))}

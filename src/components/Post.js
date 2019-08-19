@@ -5,7 +5,7 @@ import cancel from "../styles/assets/cancel.svg"
 
 import CreatePost from './CreatePost'
 
-const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
+const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage) => {
   if(editInput) {
     return (
       <div className="update-modal">
@@ -18,7 +18,6 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, ha
             handleActionMessage={handleActionMessage}
             setRenderMessage={setRenderMessage}
             setMessage={setMessage}
-            setDeletedPostId={setDeletedPostId}
             editPostMutation={editPostMutation}
           />
           <p onClick={() => setEditInput(false)}>Cancel</p>
@@ -63,7 +62,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
 
   return (
     <div className="post">
-      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
+      {renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage)}
       <div className="user-post-info">
         <div className="user-post-image"></div>
         <div className="user-post-details">

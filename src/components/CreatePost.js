@@ -1,6 +1,7 @@
 import React,  { useState } from 'react'
 
-const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, updateStoreAfterPost, closeModal, handleActionMessage, setRenderMessage, setMessage, setDeletedPostId}) => {
+
+const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, updateStoreAfterPost, closeModal, handleActionMessage, setRenderMessage, setMessage}) => {
 
   const postMutation = createPostMutation ? createPostMutation : editPostMutation;
   const [content, setContent] = useState('');
@@ -18,9 +19,9 @@ const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, 
      .then((result) => {
        if(!createPostMutation) {
          closeModal()
-         handleActionMessage("You have edited the post succeessfully!", null, setRenderMessage, setMessage, setDeletedPostId)
+         handleActionMessage("You have edited the post succeessfully!", null, setRenderMessage, setMessage)
        } else {
-         handleActionMessage("You have posted succeessfully!", null, setRenderMessage, setMessage, setDeletedPostId)
+         handleActionMessage("You have posted succeessfully!", null, setRenderMessage, setMessage)
        }
      })
      .catch((error) => console.log("Error when updating post:", error))}

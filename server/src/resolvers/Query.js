@@ -3,7 +3,7 @@ const { getUserId } = require('../utils')
 
 async function feed(parent, args, context, info) {
   const where = args.filter ? {
-   OR: [
+   AND: [
      { content_contains: args.filter },
      { deleted: false },
    ],
