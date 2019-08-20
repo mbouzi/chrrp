@@ -11,7 +11,6 @@ import ActionMessage from './ActionMessage'
 import { css } from '@emotion/core';
 import styled from '@emotion/styled';
 import {fontSizes, colors} from '../styles/defaultTheme'
-import searchIcon from '../styles/assets/search-icon.svg'
 
 const FEED_QUERY = gql`
   query feed($filter: String!){
@@ -64,6 +63,9 @@ const USER_QUERY = gql`
       id
       name
       image
+      location
+      bio
+      website
       posts {
         id
         content
@@ -296,7 +298,7 @@ const Profile = ({match, currentUser}) => {
           setActionMessageError={setActionMessageError}
           currentUser={currentUser}
         />
-          {username && dataFive && dataFive.user && dataFive.user.id !== currentUser.id ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
+          {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
             renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError)}
       </PostActions>
       <ActionMessage

@@ -19,6 +19,9 @@ const CURRENT_USER_QUERY = gql`
       id
       name
       image
+      location
+      bio
+      website
       posts {
         id
         content

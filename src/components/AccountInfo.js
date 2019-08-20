@@ -12,6 +12,7 @@ const AccountInfoWrapper = styled('div')`
   box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
   border-radius: 10px;
   padding: 33px;
+  max-width: 227px;
   @media screen and (max-width: 690px) {
     width: 80%;
     position: relative;
@@ -60,7 +61,7 @@ const AccountInfoBio = styled('p')`
 const AccountInfoListItem = styled('li')`
   font-size: ${fontSizes.sm};
   line-height: ${fontSizes.md};
-  color: #7E8B9C;
+  color: ${colors.grey};
   margin-bottom: 10px;
 `
 
@@ -99,20 +100,20 @@ const renderListItem = (alt, src, content) => {
   )
 }
 
+// might want to edit to allow for longer usernames
 const AccountInfo = ({user}) => {
-  console.log("USERIMG:", user)
   return (
     <AccountInfoWrapper>
       <AccountInfoMain>
         <AccountInfoImage style={{backgroundImage: `url(${user && user.image})`}}  >
         </AccountInfoImage>
         <AccountInfoUsername>{user.name}</AccountInfoUsername>
-        <AccountInfoBio>Musical anarchist/the originator</AccountInfoBio>
+        <AccountInfoBio>{user.bio && user.bio}</AccountInfoBio>
       </AccountInfoMain>
       <AccountInfoSub>
-        {renderListItem("location", location, "Some Place Higher")}
-        {renderListItem("website", link, "kidcudi.com")}
-        {renderListItem("date", date, "July 2019")}
+        {renderListItem("location", location, user.location ? user.location : "Location")}
+        {renderListItem("website", link, user.website ? user.website : "Website")}
+        {renderListItem("date", date, user.startDate ? user.startDate : "July 2019")}
       </AccountInfoSub>
     </AccountInfoWrapper>
   )
