@@ -10,6 +10,10 @@ import ErrorBoundary from './ErrorBoundary'
 
 import ClipLoader from 'react-spinners/ClipLoader';
 import { css } from '@emotion/core';
+import {colors} from '../styles/defaultTheme'
+import logo from '../styles/assets/logo.svg'
+import styled from '@emotion/styled';
+
 
 import { AUTH_TOKEN } from '../constants'
 
@@ -41,6 +45,12 @@ const LoadingStyle = css`
     position: relative;
     left: 50%;
     top: 200px;
+`;
+
+const ErrorPage = styled('div')`
+  margin: 20% auto;
+  text-align: center;
+  color: ${colors.blue};
 `;
 
 
@@ -76,7 +86,12 @@ const renderApp = (data, loading, error) => {
       )
     }
     if (error) {
-      return <div>Error, must login <a href="/login">login</a></div>
+      return (
+        <ErrorPage>
+          Please <a href="/login">login</a> to chrrp!
+          <img style={{position: "relative", left: "6px", top: "4px"}} alt="chrrp" src={logo} />
+        </ErrorPage>
+      )
     }
     return (
       <ErrorBoundary>
