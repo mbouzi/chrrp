@@ -12,7 +12,6 @@ const AccountInfoWrapper = styled('div')`
   box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
   border-radius: 10px;
   padding: 33px;
-  max-width: 227px;
   @media screen and (max-width: 690px) {
     width: 80%;
     position: relative;
