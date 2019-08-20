@@ -92,7 +92,7 @@ const Feed = styled('div')`
   background: #FFFFFF;
   box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
   border-radius: 10px;
-  margin-top: 20px;
+  margin: 20px 0;
   @media screen and (max-width: 690px) {
     width: 91%;
     margin: 0 auto;
