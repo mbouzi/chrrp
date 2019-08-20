@@ -9,7 +9,8 @@ import ClipLoader from 'react-spinners/ClipLoader';
 import ActionMessage from './ActionMessage'
 
 import { css } from '@emotion/core';
-import '../styles/profile.css'
+import styled from '@emotion/styled';
+import {fontSizes, colors} from '../styles/defaultTheme'
 import searchIcon from '../styles/assets/search-icon.svg'
 
 const FEED_QUERY = gql`
@@ -45,7 +46,7 @@ const EDIT_POST = gql`
     updatePost(postId: $postId, content: $content, deleted: $deleted) {
       id
       content
-      delete
+      deleted
       createdAt
       postedBy {
         name
@@ -78,6 +79,69 @@ const LoadingStyle = css`
     left: 40%;
     top: 100px;
 `;
+
+const ProfileWrapper = styled('div')`
+  width: 660px;
+  margin: 0 auto;
+  @media screen and (max-width: 690px) {
+    width: 100%;
+  }
+`
+
+const Feed = styled('div')`
+  background: #FFFFFF;
+  box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
+  border-radius: 10px;
+  margin-top: 20px;
+  @media screen and (max-width: 690px) {
+    width: 91%;
+    margin: 0 auto;
+  }
+`
+
+const SearchBarWrapper = styled('div')`
+  width: 660px;
+  margin: 0 auto;
+  position: absolute;
+  @media screen and (max-width: 690px) {
+    right: 4%;
+  }
+`
+
+const SearchBarInput = styled('input')`
+  float: right;
+  bottom: 48px;
+  position: relative;
+  border-radius: 55px;
+  border: 1px solid #B2B9C4;
+  box-sizing: border-box;
+  width: 227px;
+  height: 30px;
+  padding-left: 22px;
+  font-size: ${fontSizes.md};
+  ::placeholder {
+    color: ${colors.grey};
+    opacity: .6;
+  }
+  ::-ms-input-placeholder {
+    color: ${colors.grey};
+    opacity: .6;
+  }
+  ::-ms-input-placeholder {
+    color: ${colors.grey};
+    opacity: .6;
+  }
+`
+
+const PostActions = styled('div')`
+  width: 392px;
+  float: right;
+  @media screen and (max-width: 690px) {
+    width: 100%;
+    margin: 0 auto;
+    float: none;
+  }
+`
 
 const _updateCacheAfterPost = (store, post, filter, deleteMutation) => {
   if(deleteMutation) {
@@ -139,7 +203,7 @@ const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation,
 
   if(posts) {
     return (
-      <div className="feed">
+      <Feed>
         {posts.map((post, index) =>
           <Post
             key={index}
@@ -154,7 +218,7 @@ const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation,
             setActionMessageError={setActionMessageError}
           />
         )}
-      </div>
+      </Feed>
     )
   } else {
     return <p>No Posts</p>
@@ -207,17 +271,17 @@ const Profile = ({match, currentUser}) => {
 
   // missing searchbar icon
   return (
-    <div className="profile">
-      <div className="searchbar">
-        <input
+    <ProfileWrapper>
+      <SearchBarWrapper>
+        <SearchBarInput
           value={filter}
           onChange={e => setFilter(e.target.value)}
           type="text"
           placeholder="Search"
         />
-      </div>
+      </SearchBarWrapper>
       <AccountInfo currentUser={currentUser} />
-      <div className="post-actions">
+      <PostActions >
         <CreatePost
           updateStoreAfterPost={_updateCacheAfterPost}
           handleActionMessage={handleActionMessage}
@@ -229,7 +293,7 @@ const Profile = ({match, currentUser}) => {
         />
           {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
             renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError)}
-      </div>
+      </PostActions>
       <ActionMessage
         error={actionMessageError}
         visible={renderMessage}
@@ -243,7 +307,7 @@ const Profile = ({match, currentUser}) => {
           handleActionMessage("There was an error when undoing your delete", null, setRenderMessage, setMessage, null, setActionMessageError)
         })}
       />
-    </div>
+    </ProfileWrapper>
   )
 }
 

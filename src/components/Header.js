@@ -6,7 +6,34 @@ import chrrp from'../styles/assets/chrrp.svg'
 
 import { AUTH_TOKEN } from '../constants'
 
-import '../styles/header.css'
+import styled from '@emotion/styled';
+import {fontSizes, colors} from '../styles/defaultTheme'
+
+const HeaderWrapper = styled('div')`
+  width: 660px;
+  margin: 20px auto;
+  display: flex;
+  justify-content: space-between;
+  @media screen and (max-width: 690px) {
+    width: 91%;
+  }
+`
+
+const Action = styled('div')`
+  right: 240px;
+  position: relative;
+  color: ${colors.blue};
+  cursor: pointer;
+  font-size: ${fontSizes.md};
+  top: 2px;
+`
+
+const Logo = styled('img')`
+  position: relative;
+  bottom: 1px;
+  left: 2px;
+`
+
 
 class Header extends Component {
 
@@ -15,17 +42,16 @@ class Header extends Component {
     const authToken = localStorage.getItem(AUTH_TOKEN)
 
     return (
-      <div className="header">
-        <div className="logo">
+      <HeaderWrapper>
+        <div>
           <Link to="/" >
             <img alt="logo" src={logo} />
-            <img className="logo" alt="chrrp" src={chrrp} />
+            <Logo alt="chrrp" src={chrrp} />
           </Link>
         </div>
         <div>
           {authToken ? (
-           <div
-             className="logout"
+           <Action
              onClick={() => {
                localStorage.removeItem(AUTH_TOKEN)
                this.props.history.push(`/login`)
@@ -33,14 +59,16 @@ class Header extends Component {
              }}
            >
              logout
-           </div>
+           </Action>
          ) : (
-           <Link to="/login" className="logout">
-             login
+           <Link to="/login">
+            <Action>
+              login
+             </Action>
            </Link>
          )}
         </div>
-      </div>
+      </HeaderWrapper>
     )
   }
 }
