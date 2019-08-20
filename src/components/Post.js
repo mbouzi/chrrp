@@ -23,7 +23,7 @@ const renderEditModal = (editInput, setEditInput, post, updateStoreAfterPost, ha
             editPostMutation={editPostMutation}
             setActionMessageError={setActionMessageError}
           />
-          <p onClick={() => setEditInput(false)}>Cancel</p>
+          <p style={{color: "#fff", cursor: "pointer"}} onClick={() => setEditInput(false)}>Cancel</p>
         </div>
       </div>
     )
@@ -72,7 +72,17 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
     <div  className="post">
       {setRenderMessage && renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setActionMessageError)}
       <div className="user-post-info">
-        <div className="user-post-image"></div>
+        <div
+          className="user-post-image"
+          style={{
+            backgroundImage: `url(${post.postedBy && post.postedBy.image})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
+
+        </div>
         <div className="user-post-details">
           <p className="user-post-username">{post.postedBy.name}</p>
           <p className="user-post-date"> {timeDifferenceForDate(post.createdAt)}</p>

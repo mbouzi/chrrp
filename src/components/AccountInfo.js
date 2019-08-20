@@ -7,7 +7,16 @@ const AccountInfo = ({currentUser}) => {
   return (
     <div className="account-info">
       <div className="account-info-main">
-        <div className="account-info-image"></div>
+        <div
+          className="account-info-image"
+          style={{
+            backgroundImage: `url(${currentUser && currentUser.image})`,
+            backgroundPosition: "center",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "cover",
+          }}
+        >
+        </div>
         <p className="account-info-username">{currentUser.name}</p>
         <p className="account-info-bio">Musical anarchist/the originator</p>
       </div>

@@ -1,12 +1,12 @@
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
 import gql from 'graphql-tag'
-// import { Query } from 'react-apollo'
 import { useQuery } from 'react-apollo-hooks';
 
 import Profile from './Profile'
 import Header from './Header'
 import Login from './Login'
+import ErrorBoundary from './ErrorBoundary'
 
 import ClipLoader from 'react-spinners/ClipLoader';
 import { css } from '@emotion/core';
@@ -70,21 +70,21 @@ const renderApp = (data, loading, error) => {
       )
     }
     if (error) {
-      console.log("ERROR:", error)
-       return <div>Error</div>
+      return <div>Error, must login <a href="/login">login</a></div>
     }
     return (
-      <Switch>
-        <Route exact path="/" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
-        <Route exact path="/:name" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
-      </Switch>
+      <ErrorBoundary>
+        <Switch>
+          <Route exact path="/" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
+          <Route exact path="/:name" render={(props) => <Profile {...props} currentUser={data.currentUser} />} />
+        </Switch>
+      </ErrorBoundary>
     )
   }
 }
 
 
 const App = () => {
-  // <Route exact path="/user/:name" component={CreateLink} />
   const { data, loading, error } = useQuery(CURRENT_USER_QUERY, {});
 
   return (

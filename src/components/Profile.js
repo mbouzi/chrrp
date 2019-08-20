@@ -104,11 +104,16 @@ const _updateCacheAfterPost = (store, post, filter, deleteMutation) => {
 
 const handleActionMessage = (message, postId, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError) => {
   if(setActionMessageError) {
-    console.log("HIT SET")
     setActionMessageError(true)
+    setTimeout( function(){
+      setActionMessageError(false)
+    }, 4000 );
   }
   setMessage(message ? message : "")
   setRenderMessage(true)
+  setTimeout( function(){
+    setRenderMessage(false)
+  }, 4000 );
   if(postId && setDeletedPostId) {
     setDeletedPostId(postId ? postId : "")
   }
@@ -200,11 +205,10 @@ const Profile = ({match, currentUser}) => {
     {variables: {name: username}}
   );
 
-  console.log("ERRORMSRA:", actionMessageError)
+  // missing searchbar icon
   return (
     <div className="profile">
       <div className="searchbar">
-        <img style={{width: "20px", height: "20px"}} src={searchIcon} alt="search" />
         <input
           value={filter}
           onChange={e => setFilter(e.target.value)}
@@ -221,6 +225,7 @@ const Profile = ({match, currentUser}) => {
           setMessage={setMessage}
           createPostMutation={createPostMutation}
           setActionMessageError={setActionMessageError}
+          currentUser={currentUser}
         />
           {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
             renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError)}

@@ -3,6 +3,8 @@ import { Mutation } from 'react-apollo'
 import gql from 'graphql-tag'
 import { AUTH_TOKEN } from '../constants'
 
+import logo from '../styles/assets/logo.svg'
+import chrrp from'../styles/assets/chrrp.svg'
 import '../styles/login.css'
 
 
@@ -33,7 +35,11 @@ class Login extends Component {
     const { login, password, name } = this.state
     return (
       <div className="login">
-        <h4 >{login ? 'Login' : 'Sign Up'}</h4>
+        <div>
+          <img alt="logo" src={logo} />
+          <img className="logo" alt="chrrp" src={chrrp} />
+          <h4>{login ? 'Login' : 'Sign Up'}</h4>
+        </div>
         <div >
           <input
             value={name}
@@ -45,7 +51,7 @@ class Login extends Component {
             value={password}
             onChange={e => this.setState({ password: e.target.value })}
             type="password"
-            placeholder="Choose a safe password"
+            placeholder="Password"
           />
         </div>
         <div >
@@ -56,16 +62,16 @@ class Login extends Component {
           >
             {mutation => (
               <button onClick={mutation}>
-                {login ? 'login' : 'create account'}
+                {login ? 'login' : 'create'}
               </button>
             )}
           </Mutation>
           <div
             onClick={() => this.setState({ login: !login })}
           >
-            {login
+            <p>{login
               ? 'need to create an account?'
-              : 'already have an account?'}
+              : 'already have an account?'}</p>
           </div>
         </div>
       </div>

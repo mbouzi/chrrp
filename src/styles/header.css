@@ -14,6 +14,12 @@
   top: 2px;
 }
 
+.header .logo {
+  position: relative;
+  bottom: 1px;
+  left: 2px;
+}
+
 @media screen and (max-width: 690px) {
 
   .header {
