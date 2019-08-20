@@ -44,6 +44,7 @@ const LoadingStyle = css`
 const authToken = localStorage.getItem(AUTH_TOKEN);
 const pathName = window.location.pathname;
 
+// render header if not on login/signup
 const renderHeader = (data) => {
 
   const correctPath = pathName !== "/login" && pathName !== "/signup";

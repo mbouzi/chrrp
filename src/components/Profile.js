@@ -274,8 +274,6 @@ const Profile = ({match, currentUser}) => {
     {variables: {name: username}}
   );
 
-  console.log("DATAFIVE:", dataFive)
-
   // missing searchbar icon
   return (
     <ProfileWrapper>

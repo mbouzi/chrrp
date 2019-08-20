@@ -193,6 +193,7 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
   const [openDropdown, setOpenDropdown] = useState(false);
   const [hoverEditIcon, setHoverEditIcon] = useState(false);
 
+  // would ideally want more real estate to click on dropdown
   return (
     <PostWrapper>
       {setRenderMessage && renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setActionMessageError)}

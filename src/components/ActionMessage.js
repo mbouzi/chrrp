@@ -63,6 +63,7 @@ const Message = styled('p')`
 `
 
 const renderMessage = (message, closeMessage, undoEdit, error) => {
+  // handle edit or delete actions
   if(message) {
     return (
       <div>
@@ -83,7 +84,6 @@ const renderMessage = (message, closeMessage, undoEdit, error) => {
 }
 
 const AccountInfo = ({message, closeMessage, undoEdit, visible, error}) => {
-  console.log("ERROR:", error)
   return (
     <ActionMessage
       error={error}

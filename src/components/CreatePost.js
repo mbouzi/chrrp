@@ -75,8 +75,6 @@ const CreatePost = ({editContent, createPostMutation, editPostMutation, postId, 
   const postMutation = createPostMutation ? createPostMutation : editPostMutation;
   const [content, setContent] = useState('');
 
-  console.log("CURRENT:", currentUser)
-
   return (
     <CreatePostWrapper style={style}>
       <CreatePostImage style={{  backgroundImage: `url(${currentUser && currentUser.image})`}}>
