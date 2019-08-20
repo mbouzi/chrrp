@@ -1,10 +1,13 @@
 type Query {
   info: String!
   feed(filter: String): [Post!]!
+  currentUser: User
+  user(name: String): User
 }
 
 type Mutation {
   post(content: String!, deleted: Boolean!): Post!
+  updatePost(postId: ID!, content: String, deleted: Boolean): Post!
   signup(name: String!, password: String!): AuthPayload
   login(name: String!, password: String!): AuthPayload
 }
@@ -14,6 +17,7 @@ type Post {
   content: String!
   deleted: Boolean!
   postedBy: User
+  createdAt: String!
 }
 
 type AuthPayload {
@@ -25,4 +29,9 @@ type User {
   id: ID!
   name: String!
   posts: [Post!]!
+  image: String
+  bio: String
+  location: String
+  website: String
+  startDate: String
 }

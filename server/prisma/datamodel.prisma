@@ -12,4 +12,9 @@ type User {
   name: String! @unique
   password: String!
   posts: [Post!]!
+  image: String
+  bio: String
+  location: String
+  website: String
+  startDate: DateTime! @createdAt
 }

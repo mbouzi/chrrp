@@ -42,8 +42,23 @@ function post(parent, args, context, info) {
   })
 }
 
+function updatePost(parent, args, context, info) {
+  console.log("ARGS:", args)
+  return context.prisma.updatePost({
+    data: {
+      content: args.content,
+      deleted: args.deleted
+    },
+    where: {
+      id: args.postId
+    }
+  })
+}
+
+
 module.exports = {
   signup,
   login,
-  post
+  post,
+  updatePost
 }

@@ -1,18 +1,33 @@
-const jwt = require('jsonwebtoken')
-const APP_SECRET = 'GraphQL-is-aw3some'
+function timeDifference(current, previous) {
+  const milliSecondsPerMinute = 60 * 1000
+  const milliSecondsPerHour = milliSecondsPerMinute * 60
+  const milliSecondsPerDay = milliSecondsPerHour * 24
+  const milliSecondsPerMonth = milliSecondsPerDay * 30
+  const milliSecondsPerYear = milliSecondsPerDay * 365
 
-function getUserId(context) {
-  const Authorization = context.request.get('Authorization')
-  if (Authorization) {
-    const token = Authorization.replace('Bearer ', '')
-    const { userId } = jwt.verify(token, APP_SECRET)
-    return userId
+  const elapsed = current - previous
+
+  if (elapsed < milliSecondsPerMinute / 3) {
+    return 'just now'
   }
 
-  throw new Error('Not authenticated')
+  if (elapsed < milliSecondsPerMinute) {
+    return 'less than 1 min ago'
+  } else if (elapsed < milliSecondsPerHour) {
+    return Math.round(elapsed / milliSecondsPerMinute) + 'm'
+  } else if (elapsed < milliSecondsPerDay) {
+    return Math.round(elapsed / milliSecondsPerHour) + 'h'
+  } else if (elapsed < milliSecondsPerMonth) {
+    return Math.round(elapsed / milliSecondsPerDay) + 'd'
+  } else if (elapsed < milliSecondsPerYear) {
+    return Math.round(elapsed / milliSecondsPerMonth) + 'mo'
+  } else {
+    return Math.round(elapsed / milliSecondsPerYear) + 'y'
+  }
 }
 
-module.exports = {
-  APP_SECRET,
-  getUserId,
+export function timeDifferenceForDate(date) {
+  const now = new Date().getTime()
+  const updated = new Date(date).getTime()
+  return timeDifference(now, updated)
 }
