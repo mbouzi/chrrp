@@ -152,7 +152,7 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
     return (
       <Dropdown>
         <Arrow></Arrow>
-        <div style={{borderBottom: "4px solid #FFF"}}> </div>
+        <Arrow style={{borderBottom: "4px solid #FFF"}}> </Arrow>
         <DropdownOption onClick={() => setEditInput(true)}>
           <img alt="cancel" src={cancel} />
           <DropdownOptionName>Edit</DropdownOptionName>

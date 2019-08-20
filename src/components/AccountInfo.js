@@ -88,7 +88,17 @@ const AccountInfoSub = styled('div')`
   }
 `
 
-//must refactor
+const renderListItem = (alt, src, content) => {
+  return (
+    <AccountInfoListItem>
+      <AccountInfoListItemIcon>
+        <img alt={alt} src={src} />
+      </AccountInfoListItemIcon>
+      {content}
+    </AccountInfoListItem>
+  )
+}
+
 const AccountInfo = ({currentUser}) => {
   return (
     <AccountInfoWrapper>
@@ -99,24 +109,9 @@ const AccountInfo = ({currentUser}) => {
         <AccountInfoBio>Musical anarchist/the originator</AccountInfoBio>
       </AccountInfoMain>
       <AccountInfoSub>
-        <AccountInfoListItem>
-          <AccountInfoListItemIcon>
-            <img alt="location" src={location} />
-          </AccountInfoListItemIcon>
-          Some Place Higher
-        </AccountInfoListItem>
-        <AccountInfoListItem>
-          <AccountInfoListItemIcon>
-            <img alt="website" src={link} />
-          </AccountInfoListItemIcon>
-          kidcudi.com
-        </AccountInfoListItem>
-        <AccountInfoListItem>
-          <AccountInfoListItemIcon>
-            <img alt="date" src={date} />
-          </AccountInfoListItemIcon>
-          July 2019
-        </AccountInfoListItem>
+        {renderListItem("location", location, "Some Place Higher")}
+        {renderListItem("website", link, "kidcudi.com")}
+        {renderListItem("date", date, "July 2019")}
       </AccountInfoSub>
     </AccountInfoWrapper>
   )

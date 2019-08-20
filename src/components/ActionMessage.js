@@ -6,16 +6,14 @@ import {fontSizes, colors} from '../styles/defaultTheme'
 
 const ActionMessage = styled('div')`
   background: ${props => props.error ? "red" : colors.green};
-  width: 678px;
-  height: 70px;
   box-shadow: 0px 0px 14px rgba(15, 28, 45, 0.25);
   border-radius: 10px;
   position: absolute;
   bottom: 10px;
   opacity: ${props => props.visible ? 1 : 0};
-  width:0;
-  height:0;
-  transition: width 0.5s, height 0.5s, opacity 0.5s 0.5s;
+  width: ${props => props.visible ? "678px" : 0};
+  height: ${props => props.visible ? "70px" : 0};
+  transition: ${props => props.visible ? "width 0.5s, height 0.5s, opacity 0.5s 0.5s" : "width 0.5s 0.5s, height 0.5s 0.5s, opacity 0.5s"};
   @media screen and (max-width: 690px) {
     margin-left: auto;
     margin-right: auto;
