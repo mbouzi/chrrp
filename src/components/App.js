@@ -18,6 +18,7 @@ const CURRENT_USER_QUERY = gql`
     currentUser {
       id
       name
+      image
       posts {
         id
         content
@@ -25,6 +26,7 @@ const CURRENT_USER_QUERY = gql`
         createdAt
         postedBy {
           name
+          image
         }
       }
     }

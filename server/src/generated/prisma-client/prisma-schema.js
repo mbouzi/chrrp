@@ -286,6 +286,11 @@ type User {
   name: String!
   password: String!
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
+  image: String
+  bio: String
+  location: String
+  website: String
+  startDate: DateTime!
 }
 
 type UserConnection {
@@ -299,6 +304,10 @@ input UserCreateInput {
   name: String!
   password: String!
   posts: PostCreateManyWithoutPostedByInput
+  image: String
+  bio: String
+  location: String
+  website: String
 }
 
 input UserCreateOneWithoutPostsInput {
@@ -310,6 +319,10 @@ input UserCreateWithoutPostsInput {
   id: ID
   name: String!
   password: String!
+  image: String
+  bio: String
+  location: String
+  website: String
 }
 
 type UserEdge {
@@ -324,12 +337,27 @@ enum UserOrderByInput {
   name_DESC
   password_ASC
   password_DESC
+  image_ASC
+  image_DESC
+  bio_ASC
+  bio_DESC
+  location_ASC
+  location_DESC
+  website_ASC
+  website_DESC
+  startDate_ASC
+  startDate_DESC
 }
 
 type UserPreviousValues {
   id: ID!
   name: String!
   password: String!
+  image: String
+  bio: String
+  location: String
+  website: String
+  startDate: DateTime!
 }
 
 type UserSubscriptionPayload {
@@ -354,11 +382,19 @@ input UserUpdateInput {
   name: String
   password: String
   posts: PostUpdateManyWithoutPostedByInput
+  image: String
+  bio: String
+  location: String
+  website: String
 }
 
 input UserUpdateManyMutationInput {
   name: String
   password: String
+  image: String
+  bio: String
+  location: String
+  website: String
 }
 
 input UserUpdateOneWithoutPostsInput {
@@ -373,6 +409,10 @@ input UserUpdateOneWithoutPostsInput {
 input UserUpdateWithoutPostsDataInput {
   name: String
   password: String
+  image: String
+  bio: String
+  location: String
+  website: String
 }
 
 input UserUpsertWithoutPostsInput {
@@ -426,6 +466,70 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  bio: String
+  bio_not: String
+  bio_in: [String!]
+  bio_not_in: [String!]
+  bio_lt: String
+  bio_lte: String
+  bio_gt: String
+  bio_gte: String
+  bio_contains: String
+  bio_not_contains: String
+  bio_starts_with: String
+  bio_not_starts_with: String
+  bio_ends_with: String
+  bio_not_ends_with: String
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  website: String
+  website_not: String
+  website_in: [String!]
+  website_not_in: [String!]
+  website_lt: String
+  website_lte: String
+  website_gt: String
+  website_gte: String
+  website_contains: String
+  website_not_contains: String
+  website_starts_with: String
+  website_not_starts_with: String
+  website_ends_with: String
+  website_not_ends_with: String
+  startDate: DateTime
+  startDate_not: DateTime
+  startDate_in: [DateTime!]
+  startDate_not_in: [DateTime!]
+  startDate_lt: DateTime
+  startDate_lte: DateTime
+  startDate_gt: DateTime
+  startDate_gte: DateTime
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

@@ -22,6 +22,7 @@ const FEED_QUERY = gql`
       createdAt
       postedBy {
         name
+        image
       }
     }
   }
@@ -36,6 +37,7 @@ const POST_MUTATION = gql`
       createdAt
       postedBy {
         name
+        image
       }
     }
   }
@@ -50,6 +52,7 @@ const EDIT_POST = gql`
       createdAt
       postedBy {
         name
+        image
       }
     }
   }
@@ -60,6 +63,7 @@ const USER_QUERY = gql`
     user(name: $name) {
       id
       name
+      image
       posts {
         id
         content
@@ -67,6 +71,7 @@ const USER_QUERY = gql`
         createdAt
         postedBy {
           name
+          image
         }
       }
     }
@@ -269,6 +274,8 @@ const Profile = ({match, currentUser}) => {
     {variables: {name: username}}
   );
 
+  console.log("DATAFIVE:", dataFive)
+
   // missing searchbar icon
   return (
     <ProfileWrapper>
@@ -280,7 +287,7 @@ const Profile = ({match, currentUser}) => {
           placeholder="Search"
         />
       </SearchBarWrapper>
-      <AccountInfo currentUser={currentUser} />
+      <AccountInfo user={dataFive && dataFive.user ? dataFive.user : currentUser}/>
       <PostActions >
         <CreatePost
           updateStoreAfterPost={_updateCacheAfterPost}
@@ -291,7 +298,7 @@ const Profile = ({match, currentUser}) => {
           setActionMessageError={setActionMessageError}
           currentUser={currentUser}
         />
-          {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
+          {username && dataFive && dataFive.user && dataFive.user.id !== currentUser.id ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
             renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError)}
       </PostActions>
       <ActionMessage

@@ -156,7 +156,17 @@ export type UserOrderByInput =
   | "name_ASC"
   | "name_DESC"
   | "password_ASC"
-  | "password_DESC";
+  | "password_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "bio_ASC"
+  | "bio_DESC"
+  | "location_ASC"
+  | "location_DESC"
+  | "website_ASC"
+  | "website_DESC"
+  | "startDate_ASC"
+  | "startDate_DESC";
 
 export type MutationType = "CREATED" | "UPDATED" | "DELETED";
 
@@ -255,6 +265,70 @@ export interface UserWhereInput {
   posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
   posts_none?: Maybe<PostWhereInput>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  bio?: Maybe<String>;
+  bio_not?: Maybe<String>;
+  bio_in?: Maybe<String[] | String>;
+  bio_not_in?: Maybe<String[] | String>;
+  bio_lt?: Maybe<String>;
+  bio_lte?: Maybe<String>;
+  bio_gt?: Maybe<String>;
+  bio_gte?: Maybe<String>;
+  bio_contains?: Maybe<String>;
+  bio_not_contains?: Maybe<String>;
+  bio_starts_with?: Maybe<String>;
+  bio_not_starts_with?: Maybe<String>;
+  bio_ends_with?: Maybe<String>;
+  bio_not_ends_with?: Maybe<String>;
+  location?: Maybe<String>;
+  location_not?: Maybe<String>;
+  location_in?: Maybe<String[] | String>;
+  location_not_in?: Maybe<String[] | String>;
+  location_lt?: Maybe<String>;
+  location_lte?: Maybe<String>;
+  location_gt?: Maybe<String>;
+  location_gte?: Maybe<String>;
+  location_contains?: Maybe<String>;
+  location_not_contains?: Maybe<String>;
+  location_starts_with?: Maybe<String>;
+  location_not_starts_with?: Maybe<String>;
+  location_ends_with?: Maybe<String>;
+  location_not_ends_with?: Maybe<String>;
+  website?: Maybe<String>;
+  website_not?: Maybe<String>;
+  website_in?: Maybe<String[] | String>;
+  website_not_in?: Maybe<String[] | String>;
+  website_lt?: Maybe<String>;
+  website_lte?: Maybe<String>;
+  website_gt?: Maybe<String>;
+  website_gte?: Maybe<String>;
+  website_contains?: Maybe<String>;
+  website_not_contains?: Maybe<String>;
+  website_starts_with?: Maybe<String>;
+  website_not_starts_with?: Maybe<String>;
+  website_ends_with?: Maybe<String>;
+  website_not_ends_with?: Maybe<String>;
+  startDate?: Maybe<DateTimeInput>;
+  startDate_not?: Maybe<DateTimeInput>;
+  startDate_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  startDate_lt?: Maybe<DateTimeInput>;
+  startDate_lte?: Maybe<DateTimeInput>;
+  startDate_gt?: Maybe<DateTimeInput>;
+  startDate_gte?: Maybe<DateTimeInput>;
   AND?: Maybe<UserWhereInput[] | UserWhereInput>;
   OR?: Maybe<UserWhereInput[] | UserWhereInput>;
   NOT?: Maybe<UserWhereInput[] | UserWhereInput>;
@@ -281,6 +355,10 @@ export interface UserCreateWithoutPostsInput {
   id?: Maybe<ID_Input>;
   name: String;
   password: String;
+  image?: Maybe<String>;
+  bio?: Maybe<String>;
+  location?: Maybe<String>;
+  website?: Maybe<String>;
 }
 
 export interface PostUpdateInput {
@@ -301,6 +379,10 @@ export interface UserUpdateOneWithoutPostsInput {
 export interface UserUpdateWithoutPostsDataInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
+  image?: Maybe<String>;
+  bio?: Maybe<String>;
+  location?: Maybe<String>;
+  website?: Maybe<String>;
 }
 
 export interface UserUpsertWithoutPostsInput {
@@ -318,6 +400,10 @@ export interface UserCreateInput {
   name: String;
   password: String;
   posts?: Maybe<PostCreateManyWithoutPostedByInput>;
+  image?: Maybe<String>;
+  bio?: Maybe<String>;
+  location?: Maybe<String>;
+  website?: Maybe<String>;
 }
 
 export interface PostCreateManyWithoutPostedByInput {
@@ -337,6 +423,10 @@ export interface UserUpdateInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
   posts?: Maybe<PostUpdateManyWithoutPostedByInput>;
+  image?: Maybe<String>;
+  bio?: Maybe<String>;
+  location?: Maybe<String>;
+  website?: Maybe<String>;
 }
 
 export interface PostUpdateManyWithoutPostedByInput {
@@ -434,6 +524,10 @@ export interface PostUpdateManyDataInput {
 export interface UserUpdateManyMutationInput {
   name?: Maybe<String>;
   password?: Maybe<String>;
+  image?: Maybe<String>;
+  bio?: Maybe<String>;
+  location?: Maybe<String>;
+  website?: Maybe<String>;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -501,6 +595,11 @@ export interface User {
   id: ID_Output;
   name: String;
   password: String;
+  image?: String;
+  bio?: String;
+  location?: String;
+  website?: String;
+  startDate: DateTimeOutput;
 }
 
 export interface UserPromise extends Promise<User>, Fragmentable {
@@ -516,6 +615,11 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  image: () => Promise<String>;
+  bio: () => Promise<String>;
+  location: () => Promise<String>;
+  website: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
 }
 
 export interface UserSubscription
@@ -533,6 +637,11 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  image: () => Promise<AsyncIterator<String>>;
+  bio: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  website: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 export interface UserNullablePromise
@@ -550,6 +659,11 @@ export interface UserNullablePromise
     first?: Int;
     last?: Int;
   }) => T;
+  image: () => Promise<String>;
+  bio: () => Promise<String>;
+  location: () => Promise<String>;
+  website: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
 }
 
 export interface PostConnection {
@@ -778,6 +892,11 @@ export interface UserPreviousValues {
   id: ID_Output;
   name: String;
   password: String;
+  image?: String;
+  bio?: String;
+  location?: String;
+  website?: String;
+  startDate: DateTimeOutput;
 }
 
 export interface UserPreviousValuesPromise
@@ -786,6 +905,11 @@ export interface UserPreviousValuesPromise
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
   password: () => Promise<String>;
+  image: () => Promise<String>;
+  bio: () => Promise<String>;
+  location: () => Promise<String>;
+  website: () => Promise<String>;
+  startDate: () => Promise<DateTimeOutput>;
 }
 
 export interface UserPreviousValuesSubscription
@@ -794,6 +918,11 @@ export interface UserPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
   password: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  bio: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  website: () => Promise<AsyncIterator<String>>;
+  startDate: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
 /*

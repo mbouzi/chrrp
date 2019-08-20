@@ -1,4 +1,6 @@
 import React,  { useState }  from 'react'
+import { Link } from 'react-router-dom'
+
 import { timeDifferenceForDate } from '../utils'
 import edit from "../styles/assets/edit.svg"
 import hoverEdit from "../styles/assets/hover-edit.svg"
@@ -89,10 +91,13 @@ const UserPostDate = styled('p')`
   color:  ${colors.grey};
 `
 
-const PostContent = styled('div')`
+const PostContent = styled('p')`
   margin: 40px 0px 30px 26px;
   font-size: ${fontSizes.default};
+  word-break: break-word;
   line-height: 19px;
+  overflow: hidden;
+  width: 80%;
 `
 
 const Arrow = styled('div')`
@@ -175,6 +180,13 @@ const renderDropdown = (openDropdown, deletePostMutation, setEditInput, post, ha
   }
 }
 
+const formatLink = (user) => {
+  let link = "/"
+  if(user.name) {
+    return link + user.name
+  }
+}
+
 const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError}) => {
 
   const [editInput, setEditInput] = useState(false);
@@ -185,8 +197,10 @@ const Post = ({post, updateStoreAfterPost, handleActionMessage, deletePostMutati
     <PostWrapper>
       {setRenderMessage && renderEditModal(editInput, setEditInput, post, updateStoreAfterPost, handleActionMessage, editPostMutation, setRenderMessage, setMessage, setActionMessageError)}
       <UserPostInfo>
-        <UserPostImage style={{backgroundImage: `url(${post.postedBy && post.postedBy.image})`}}>
-        </UserPostImage>
+        <Link to={formatLink(post.postedBy)}>
+          <UserPostImage style={{backgroundImage: `url(${post.postedBy && post.postedBy.image})`}}>
+          </UserPostImage>
+        </Link>
         <UserPostDetails>
           <UserPostUsername>{post.postedBy.name}</UserPostUsername>
           <UserPostDate> {timeDifferenceForDate(post.createdAt)}</UserPostDate>

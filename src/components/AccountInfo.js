@@ -99,13 +99,14 @@ const renderListItem = (alt, src, content) => {
   )
 }
 
-const AccountInfo = ({currentUser}) => {
+const AccountInfo = ({user}) => {
+  console.log("USERIMG:", user)
   return (
     <AccountInfoWrapper>
       <AccountInfoMain>
-        <AccountInfoImage style={{backgroundImage: `url(${currentUser && currentUser.image})`}}  >
+        <AccountInfoImage style={{backgroundImage: `url(${user && user.image})`}}  >
         </AccountInfoImage>
-        <AccountInfoUsername>{currentUser.name}</AccountInfoUsername>
+        <AccountInfoUsername>{user.name}</AccountInfoUsername>
         <AccountInfoBio>Musical anarchist/the originator</AccountInfoBio>
       </AccountInfoMain>
       <AccountInfoSub>

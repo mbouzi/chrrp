@@ -74,7 +74,7 @@ const renderMessage = (message, closeMessage, undoEdit, error) => {
     return (
       <div>
         <ActionMessageIcon alt="trash" src={trash} />
-        <p>Post successfully deleted</p>
+        <Message>Post successfully deleted</Message>
         <ActionMessageButton onClick={() => closeMessage()}>Dismiss</ActionMessageButton>
         <ActionMessageButton onClick={() => undoEdit()} style={{marginRight: "5px"}}>Undo</ActionMessageButton>
       </div>
