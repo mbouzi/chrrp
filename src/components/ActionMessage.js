@@ -2,12 +2,12 @@ import React from 'react'
 import trash from "../styles/assets/trash.svg"
 
 
-const renderMessage = (message, closeMessage, undoEdit) => {
+const renderMessage = (message, closeMessage, undoEdit, error) => {
   if(message) {
     return (
       <div>
         <p>{message}</p>
-        <button onClick={() => closeMessage()}>Dismiss</button>
+        <button className={error ? "error-action-button" : "action-button"}  onClick={() => closeMessage()}>Dismiss</button>
       </div>
     )
   } else {
@@ -22,10 +22,16 @@ const renderMessage = (message, closeMessage, undoEdit) => {
   }
 }
 
-const AccountInfo = ({message, closeMessage, undoEdit, visible}) => {
+const AccountInfo = ({message, closeMessage, undoEdit, visible, error}) => {
+  console.log("ERROR:", error)
   return (
-    <div className={visible ? "action-message" :  "action-message hide"}>
-      {renderMessage(message, closeMessage, undoEdit)}
+    <div
+      style={{
+        background: error && "red"
+      }}
+      className={visible ? "action-message" :  "action-message hide"}
+    >
+      {renderMessage(message, closeMessage, undoEdit, error)}
     </div>
   )
 }

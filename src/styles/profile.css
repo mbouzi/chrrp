@@ -1,7 +1,15 @@
+
+/* if I used saas
+$submit-button-color: #2582FF
+$border-color: 7E8B9C
+$action-message-color: */
+
+/* profile page */
 .profile {
   width: 660px;
   margin: 0 auto;
 }
+
 
 .account-info {
   min-width: 165px;
@@ -55,11 +63,15 @@
   top: 2px;
 }
 
+
+
+
 .post-actions {
   width: 392px;
   float: right;
 }
 
+/* create post */
 .create-post {
   max-width: 392px;
   max-height: 87px;
@@ -86,6 +98,7 @@
   font-size: 16px;
   line-height: 19px;
   outline: none;
+  resize: none;
 }
 
 .create-post ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
@@ -112,6 +125,9 @@
   border: none;
 }
 
+
+
+
 .feed {
   background: #FFFFFF;
   box-shadow: 0px 4px 60px rgba(26, 40, 60, 0.14);
@@ -130,9 +146,7 @@
   right: 29px;
   bottom: 6px;
   cursor: pointer;
-
 }
-
 
 .dropdown {
   position: absolute;
@@ -221,6 +235,9 @@
   line-height: 19px;
 }
 
+
+
+
 .update-modal {
   height: 100%;
   width: 100%;
@@ -241,6 +258,9 @@
 .update-modal .create-post {
     margin: 0 auto;
 }
+
+
+
 
 .action-message {
   background: #3ABD7E;
@@ -297,11 +317,19 @@
   right: 20px;
 }
 
-.action-message button:hover {
+.action-message .action-button:hover {
   border: 1px solid #FFF;
   background: #FFF;
   color: #3ABD7E;
 }
+
+.action-message .error-action-button:hover {
+  border: 1px solid #FFF;
+  background: #FFF;
+  color: red;
+}
+
+
 
 .searchbar {
   width: 660px;
@@ -337,6 +365,8 @@
   opacity: .6;
 }
 
+
+
 @media screen and (max-width: 690px) {
 
   .searchbar {
@@ -357,6 +387,20 @@
     display: flex;
   }
 
+  .account-info .post-button  {
+    text-align: center;
+  }
+
+  .account-info .post-button img {
+    background: #2582FF;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto;
+    border-radius: 50px;
+    padding: 10px;
+    margin-top: 25px;
+  }
+
   .account-info-main {
     position: relative;
     bottom: 20px;
@@ -366,6 +410,7 @@
     float: right;
     position: relative;
     bottom: 38px;
+    margin-bottom: 0;
   }
 
   .account-info-image {
@@ -381,6 +426,8 @@
     width: 100%;
     margin: 0 auto;
   }
+
+
 
   .create-post {
     max-width: 100%;
@@ -398,6 +445,8 @@
   .create-post button {
     margin-top: 5px;
   }
+
+
 
   .feed {
     width: 91%;

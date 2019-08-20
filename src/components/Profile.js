@@ -10,6 +10,7 @@ import ActionMessage from './ActionMessage'
 
 import { css } from '@emotion/core';
 import '../styles/profile.css'
+import searchIcon from '../styles/assets/search-icon.svg'
 
 const FEED_QUERY = gql`
   query feed($filter: String!){
@@ -44,7 +45,7 @@ const EDIT_POST = gql`
     updatePost(postId: $postId, content: $content, deleted: $deleted) {
       id
       content
-      deleted
+      delete
       createdAt
       postedBy {
         name
@@ -101,7 +102,11 @@ const _updateCacheAfterPost = (store, post, filter, deleteMutation) => {
 }
 
 
-const handleActionMessage = (message, postId, setRenderMessage, setMessage, setDeletedPostId) => {
+const handleActionMessage = (message, postId, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError) => {
+  if(setActionMessageError) {
+    console.log("HIT SET")
+    setActionMessageError(true)
+  }
   setMessage(message ? message : "")
   setRenderMessage(true)
   if(postId && setDeletedPostId) {
@@ -110,7 +115,7 @@ const handleActionMessage = (message, postId, setRenderMessage, setMessage, setD
 }
 
 
-const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId) => {
+const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError) => {
 
   if (loading) {
     return (
@@ -125,26 +130,30 @@ const renderFeed = (posts, loading, error, deletePostMutation, editPostMutation,
   }
   if (error) {
     console.log("ERROR:", error)
-    return <div>Error</div>
   }
 
-  return (
-    <div className="feed">
-      {posts.map((post, index) =>
-        <Post
-          key={index}
-          updateStoreAfterPost={_updateCacheAfterPost}
-          post={post}
-          handleActionMessage={handleActionMessage}
-          setRenderMessage={setRenderMessage}
-          setMessage={setMessage}
-          setDeletedPostId={setDeletedPostId}
-          editPostMutation={editPostMutation}
-          deletePostMutation={deletePostMutation}
-        />
-      )}
-    </div>
-  )
+  if(posts) {
+    return (
+      <div className="feed">
+        {posts.map((post, index) =>
+          <Post
+            key={index}
+            updateStoreAfterPost={_updateCacheAfterPost}
+            post={post}
+            handleActionMessage={handleActionMessage}
+            setRenderMessage={setRenderMessage}
+            setMessage={setMessage}
+            setDeletedPostId={setDeletedPostId}
+            editPostMutation={editPostMutation}
+            deletePostMutation={deletePostMutation}
+            setActionMessageError={setActionMessageError}
+          />
+        )}
+      </div>
+    )
+  } else {
+    return <p>No Posts</p>
+  }
 }
 
 const Profile = ({match, currentUser}) => {
@@ -155,6 +164,8 @@ const Profile = ({match, currentUser}) => {
   const [message, setMessage] = useState("");
   const [deletedPostId, setDeletedPostId] = useState("");
   const [filter, setFilter] = useState("");
+  const [actionMessageError, setActionMessageError] = useState(false);
+
 
 
   const [createPostMutation] = useMutation(POST_MUTATION,{
@@ -189,10 +200,11 @@ const Profile = ({match, currentUser}) => {
     {variables: {name: username}}
   );
 
-
+  console.log("ERRORMSRA:", actionMessageError)
   return (
     <div className="profile">
       <div className="searchbar">
+        <img style={{width: "20px", height: "20px"}} src={searchIcon} alt="search" />
         <input
           value={filter}
           onChange={e => setFilter(e.target.value)}
@@ -208,18 +220,23 @@ const Profile = ({match, currentUser}) => {
           setRenderMessage={setRenderMessage}
           setMessage={setMessage}
           createPostMutation={createPostMutation}
+          setActionMessageError={setActionMessageError}
         />
           {username ? renderFeed(dataFive && dataFive.user.posts, loadingTwo, errorTwo) :
-            renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId)}
+            renderFeed(dataFour && dataFour.feed, loading, error, deletePostMutation, editPostMutation, setRenderMessage, setMessage, setDeletedPostId, setActionMessageError)}
       </div>
       <ActionMessage
+        error={actionMessageError}
         visible={renderMessage}
         message={message}
         closeMessage={() => setRenderMessage(false)}
         undoEdit={ () => undoDeletePostMutation({variables: { id: deletedPostId, deleted: false, postId: deletedPostId }}).then((result) => {
-          handleActionMessage("You have succeessfully undone your delete!", null, setRenderMessage, setMessage, setDeletedPostId)
+          handleActionMessage("You have succeessfully undone your delete!", null, setRenderMessage, setMessage)
         })
-        .catch((error) => console.log("Error when updating post:", error))}
+        .catch((error) => {
+          console.log("Error when updating post:", error)
+          handleActionMessage("There was an error when undoing your delete", null, setRenderMessage, setMessage, null, setActionMessageError)
+        })}
       />
     </div>
   )
