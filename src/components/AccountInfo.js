@@ -107,7 +107,7 @@ const AccountInfo = ({user}) => {
         <AccountInfoImage style={{backgroundImage: `url(${user && user.image})`}}  >
         </AccountInfoImage>
         <AccountInfoUsername>{user.name}</AccountInfoUsername>
-        <AccountInfoBio>{user.bio && user.bio}</AccountInfoBio>
+        {/* <AccountInfoBio>{user.bio && user.bio}</AccountInfoBio> */}
       </AccountInfoMain>
       <AccountInfoSub>
         {renderListItem("location", location, user.location ? user.location : "Location")}

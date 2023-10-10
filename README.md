@@ -20,16 +20,6 @@ You have the ability to:
 
   Enjoy!
 
-## Directions:
-
-You will be able to view your timeline once you've created an account. Here are some some existing users to visit:
-
-* ```KidCudi``` at ```/kidcudi```
-* ```chrissyteigen``` at ```/chrissyteigen```
-
-## Sending Feedback
-
-I appreciate [your feedback](https://github.com/mbouzi/chrrp/issues);
 ## Technologies
 
 This app was built with:
