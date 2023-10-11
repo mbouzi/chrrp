@@ -1,14 +1,14 @@
 
 type Post {
-  id: ID! @id
-  createdAt: DateTime! @createdAt
+  id: ID! @unique
+  createdAt: DateTime!
   content: String!
   deleted: Boolean!
   postedBy: User
 }
 
 type User {
-  id: ID! @id
+  id: ID! @unique
   name: String! @unique
   password: String!
   posts: [Post!]!
@@ -16,5 +16,5 @@ type User {
   bio: String
   location: String
   website: String
-  startDate: DateTime! @createdAt
+  createdAt: DateTime!
 }

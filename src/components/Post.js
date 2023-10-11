@@ -92,7 +92,7 @@ const UserPostDate = styled('p')`
 `
 
 const PostContent = styled('p')`
-  margin: 40px 0px 30px 26px;
+  margin: 40px 0px 30px 40px;
   font-size: ${fontSizes.default};
   word-break: break-word;
   line-height: 19px;
